@@ -11,6 +11,7 @@ data class Circuit(
     val id: String,
     val name: String,
     val url: String,
+    val outlineUrl: String,
 )
 
 data class Location(
