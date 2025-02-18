@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -50,29 +49,22 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
     val remainingTime = homeViewModel.remainingTime.collectAsState().value
     val driverStandingData = homeViewModel.driverStandingModel
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        containerColor = Color.Black
-    ) { innerPadding ->
-        homeData?.let { data ->
-            Column(modifier = Modifier.padding(innerPadding)) {
-
-                Box {
-                    TopCard(data.circuit.url, data.raceName)
-                    TimerCard(
-                        sessionTitle = data.nextSession.name,
-                        remainingTime = remainingTime,
-                        outlineUrl = data.circuit.outlineUrl,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .offset(y = 80.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.height(72.dp))
-                DriverStandingCard(driverStandingData)
-
+    homeData?.let { data ->
+        Column {
+            Box {
+                TopCard(data.circuit.url, data.raceName)
+                TimerCard(
+                    sessionTitle = data.nextSession.name,
+                    remainingTime = remainingTime,
+                    outlineUrl = data.circuit.outlineUrl,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .offset(y = 80.dp)
+                )
             }
+            Spacer(modifier = Modifier.height(72.dp))
+            DriverStandingCard(driverStandingData)
+
         }
     }
 }
@@ -277,7 +269,7 @@ fun DriverStandingCard(driverStandingData: DriverStandingModel?) {
                                 .padding(vertical = 4.dp)
                         ) {
                             Text(
-                                text = (index + 1).toString(),
+                                text = (startIndex + index + 1).toString(),
                                 style = AppTypography.bodyMedium,
                                 modifier = Modifier.weight(1f),
                                 textAlign = TextAlign.Center

@@ -4,8 +4,10 @@ import com.aagamshah.splitstreampicks.common.Constants
 import com.aagamshah.splitstreampicks.data.remote.ApiService
 import com.aagamshah.splitstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
 import com.aagamshah.splitstreampicks.data.repositoryimpl.HomeRepositoryImpl
+import com.aagamshah.splitstreampicks.data.repositoryimpl.NavigationRepositoryImpl
 import com.aagamshah.splitstreampicks.domain.repository.DriverStandingRepository
 import com.aagamshah.splitstreampicks.domain.repository.HomeRepository
+import com.aagamshah.splitstreampicks.domain.repository.NavigationRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,5 +55,10 @@ object AppModule {
         return DriverStandingRepositoryImpl(apiService)
     }
 
+    @Provides
+    @Singleton
+    fun provideNavigationRepository(apiService: ApiService): NavigationRepository {
+        return NavigationRepositoryImpl(apiService)
+    }
 
 }

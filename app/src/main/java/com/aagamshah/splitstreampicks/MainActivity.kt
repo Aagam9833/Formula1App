@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
-import com.aagamshah.splitstreampicks.navigation.NavGraph
+import com.aagamshah.splitstreampicks.presentation.mainscreen.MainScreen
 import com.aagamshah.splitstreampicks.ui.theme.SplitstreamPicksTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
             SplitstreamPicksTheme {
                 Surface {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController)
+                    MainScreen(navController = navController)
                 }
             }
         }
