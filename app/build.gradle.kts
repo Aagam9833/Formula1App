@@ -91,6 +91,9 @@ dependencies {
     implementation(libs.compose.livedata)
     implementation(libs.runtime.rxjava)
 
+    //Pager
+    implementation(libs.pager)
+
 }
 
 ksp {

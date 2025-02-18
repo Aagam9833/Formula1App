@@ -12,6 +12,7 @@ object Constants {
     private const val VERSION = "api/v1"
 
     const val GET_HOME = "$VERSION/home"
+    const val GET_DRIVER_STANDING = "${VERSION}/currentDriverStandings"
 
     //APP CONSTANTS
 

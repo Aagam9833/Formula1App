@@ -19,6 +19,7 @@ coreDesugaring = "2.1.2"
 multidex = "2.0.1"
 retrofitInterceptor = "5.0.0-alpha.14"
 liveEdit = "1.7.0"
+pager = "0.30.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,8 +39,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 core-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "coreDesugaring" }
 
 #Hilt
-hilt = { group = 'com.google.dagger', name = 'hilt-android', version = '2.52'}
-androidx-hilt = { group = 'androidx.hilt', name = 'hilt-navigation-compose', version = '1.2.0'}
+hilt = { group = 'com.google.dagger', name = 'hilt-android', version = '2.52' }
+androidx-hilt = { group = 'androidx.hilt', name = 'hilt-navigation-compose', version = '1.2.0' }
 hilt-android-compiler = { group = 'com.google.dagger', name = 'hilt-compiler', version = '2.52' }
 
 #Coroutine
@@ -57,12 +58,15 @@ coil-compose = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versi
 coil-svg = { group = "io.coil-kt.coil3", name = "coil-svg", version.ref = "coilVersion" }
 
 #Mutlidex
-multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex"}
+multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
 
 #LiveEdit
-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "liveEdit"}
-compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "liveEdit"}
-runtime-rxjava = { group = "androidx.compose.runtime", name = "runtime-rxjava2", version.ref = "liveEdit"}
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "liveEdit" }
+compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "liveEdit" }
+runtime-rxjava = { group = "androidx.compose.runtime", name = "runtime-rxjava2", version.ref = "liveEdit" }
+
+#Pager
+pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "pager" }
 
 
 [plugins]
@@ -72,4 +76,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 
 #My plugin
 dagger-hilt = { id = "com.google.dagger.hilt.android", version = "2.52" }
-ksp = { id = "com.google.devtools.ksp", version = "2.0.0-1.0.21"}
+ksp = { id = "com.google.devtools.ksp", version = "2.0.0-1.0.21" }

@@ -2,7 +2,9 @@ package com.aagamshah.splitstreampicks.di
 
 import com.aagamshah.splitstreampicks.common.Constants
 import com.aagamshah.splitstreampicks.data.remote.ApiService
+import com.aagamshah.splitstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
 import com.aagamshah.splitstreampicks.data.repositoryimpl.HomeRepositoryImpl
+import com.aagamshah.splitstreampicks.domain.repository.DriverStandingRepository
 import com.aagamshah.splitstreampicks.domain.repository.HomeRepository
 import dagger.Module
 import dagger.Provides
@@ -44,5 +46,12 @@ object AppModule {
     fun provideHomeRepository(apiService: ApiService): HomeRepository {
         return HomeRepositoryImpl(apiService)
     }
+
+    @Provides
+    @Singleton
+    fun provideDriverStandingRepository(apiService: ApiService): DriverStandingRepository {
+        return DriverStandingRepositoryImpl(apiService)
+    }
+
 
 }

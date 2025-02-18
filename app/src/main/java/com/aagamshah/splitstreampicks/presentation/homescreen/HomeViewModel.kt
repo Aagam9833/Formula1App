@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aagamshah.splitstreampicks.common.Constants
 import com.aagamshah.splitstreampicks.common.Resource
+import com.aagamshah.splitstreampicks.domain.model.DriverStandingModel
 import com.aagamshah.splitstreampicks.domain.model.HomeModel
 import com.aagamshah.splitstreampicks.domain.model.NextSession
+import com.aagamshah.splitstreampicks.domain.usecase.DriverStandingUseCase
 import com.aagamshah.splitstreampicks.domain.usecase.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -27,10 +29,14 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeUseCase: HomeUseCase,
+    private val driverStandingUseCase: DriverStandingUseCase,
 ) : ViewModel() {
 
     private val _homeModel = mutableStateOf<HomeModel?>(null)
     val homeModel: HomeModel? get() = _homeModel.value
+
+    private val _driverStandingModel = mutableStateOf<DriverStandingModel?>(null)
+    val driverStandingModel: DriverStandingModel? get() = _driverStandingModel.value
 
     private val _remainingTime = MutableStateFlow(CountdownState(0, 0, 0, false))
     val remainingTime: StateFlow<CountdownState> = _remainingTime.asStateFlow()
@@ -38,6 +44,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         callHomeApi()
+        callDriverStandingApi()
     }
 
     private fun callHomeApi() {
@@ -63,6 +70,28 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun callDriverStandingApi() {
+        viewModelScope.launch {
+            driverStandingUseCase.invoke().onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                    }
+
+                    is Resource.Loading -> {
+                        Log.d(Constants.TAG, "Loading")
+                    }
+
+                    is Resource.Success -> {
+                        result.data?.let {
+                            _driverStandingModel.value = it
+                        }
+                    }
+                }
+            }.collect()
+        }
+    }
+
     private fun startCountdown(session: NextSession) {
         val targetTime = parseSessionTime(session.date, session.time)
 
@@ -74,6 +103,8 @@ class HomeViewModel @Inject constructor(
 
                 if (duration.isZero) {
                     _remainingTime.value = CountdownState(0, 0, 0, false)
+                    countdownJob?.cancel()
+                    countdownJob = null
                     break
                 }
 
