@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SplitstreamPicks"
+rootProject.name = "SlipstreamPicks"
 include(":app")

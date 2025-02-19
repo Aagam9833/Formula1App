@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.aagamshah.splitstreampicks"
+    namespace = "com.aagamshah.slipstreampicks"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.aagamshah.splitstreampicks"
+        applicationId = "com.aagamshah.slipstreampicks"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
