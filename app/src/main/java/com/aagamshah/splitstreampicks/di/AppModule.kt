@@ -2,9 +2,11 @@ package com.aagamshah.splitstreampicks.di
 
 import com.aagamshah.splitstreampicks.common.Constants
 import com.aagamshah.splitstreampicks.data.remote.ApiService
+import com.aagamshah.splitstreampicks.data.repositoryimpl.CurrentSeasonRepositoryImpl
 import com.aagamshah.splitstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
 import com.aagamshah.splitstreampicks.data.repositoryimpl.HomeRepositoryImpl
 import com.aagamshah.splitstreampicks.data.repositoryimpl.NavigationRepositoryImpl
+import com.aagamshah.splitstreampicks.domain.repository.CurrentSeasonRepository
 import com.aagamshah.splitstreampicks.domain.repository.DriverStandingRepository
 import com.aagamshah.splitstreampicks.domain.repository.HomeRepository
 import com.aagamshah.splitstreampicks.domain.repository.NavigationRepository
@@ -59,6 +61,12 @@ object AppModule {
     @Singleton
     fun provideNavigationRepository(apiService: ApiService): NavigationRepository {
         return NavigationRepositoryImpl(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCurrentSeasonRepository(apiService: ApiService): CurrentSeasonRepository {
+        return CurrentSeasonRepositoryImpl(apiService)
     }
 
 }

@@ -51,7 +51,10 @@ fun CustomBottomNavigationBar(navController: NavHostController, navigationModel:
                     onClick = {
                         if (!isSelected) {
                             navController.navigate(item.id) {
-                                popUpTo(Route.HomeScreen.route) { inclusive = false }
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                restoreState = true
                                 launchSingleTop = true
                             }
                         }

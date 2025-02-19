@@ -14,6 +14,7 @@ object Constants {
     const val GET_HOME = "$VERSION_V1/home"
     const val GET_DRIVER_STANDING = "${VERSION_V1}/currentDriverStandings"
     const val NAVIGATION = "${VERSION_V1}/navigation"
+    const val CURRENT_SEASON = "${VERSION_V1}/currentSeasonRaces"
 
     //APP CONSTANTS
 

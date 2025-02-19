@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -50,7 +53,11 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
     val driverStandingData = homeViewModel.driverStandingModel
 
     homeData?.let { data ->
-        Column {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 100.dp)
+        ) {
             Box {
                 TopCard(data.circuit.url, data.raceName)
                 TimerCard(
@@ -198,7 +205,7 @@ fun TimerCard(
             AsyncImage(
                 modifier = Modifier.weight(2f),
                 model = outlineUrl,
-                contentDescription = ""
+                contentDescription = "",
             )
         }
     }
