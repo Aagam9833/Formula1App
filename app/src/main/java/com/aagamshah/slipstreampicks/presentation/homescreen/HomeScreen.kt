@@ -68,7 +68,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
                         .offset(y = 80.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(72.dp))
+            Spacer(modifier = Modifier.height(100.dp))
             DriverStandingCard(driverStandingData)
 
         }

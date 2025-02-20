@@ -82,12 +82,12 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
             when (page) {
                 0 -> {
                     setSelected(0)
-                    SeasonListComponent(data?.upcomingRaces, seasonViewModel)
+                    SeasonListComponent(data?.upcomingRaces, seasonViewModel, false)
                 }
 
                 1 -> {
                     setSelected(1)
-                    SeasonListComponent(data?.pastRaces, seasonViewModel)
+                    SeasonListComponent(data?.pastRaces, seasonViewModel, true)
                 }
             }
         }
@@ -96,7 +96,7 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
 
 //region SEASON LIST COMPONENT
 @Composable
-fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel) {
+fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel, isPast: Boolean) {
     if (races.isNullOrEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
@@ -109,8 +109,8 @@ fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel) {
         LazyColumn(contentPadding = PaddingValues(bottom = 100.dp)) {
             items(races) { race ->
                 Card(
-                    modifier = Modifier.padding(4.dp),
-                    colors = CardDefaults.cardColors(containerColor = DarkGrey)
+                    modifier = Modifier.padding(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = DarkGrey),
                 ) {
                     Row {
                         Column(
