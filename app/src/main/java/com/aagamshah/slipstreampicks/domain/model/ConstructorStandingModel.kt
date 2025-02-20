@@ -1,18 +1,16 @@
 package com.aagamshah.slipstreampicks.domain.model
 
-data class DriverStandingModel(
+data class ConstructorStandingModel(
     val title: String,
-    val drivers: List<DriverStandingModelElement>?,
+    val constructors: List<ConstructorStandingModelElement>?,
 )
 
-data class DriverStandingModelElement(
+data class ConstructorStandingModelElement(
     val position: String,
     val points: String,
-    val name: String,
     val imageUrl: String,
-    val driverId: String,
     val constructorId: String,
-    val permanentNumber: String,
     val constructorName: String,
+    val constructorNationality: String,
     val constructorColor: String,
 )

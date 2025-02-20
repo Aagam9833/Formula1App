@@ -1,6 +1,7 @@
 package com.aagamshah.slipstreampicks.data.remote
 
 import com.aagamshah.slipstreampicks.common.Constants
+import com.aagamshah.slipstreampicks.domain.model.ConstructorStandingModel
 import com.aagamshah.slipstreampicks.domain.model.CurrentSeasonModel
 import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
 import com.aagamshah.slipstreampicks.domain.model.HomeModel
@@ -20,5 +21,8 @@ interface ApiService {
 
     @GET(Constants.CURRENT_SEASON)
     suspend fun getCurrentSeason(): CurrentSeasonModel
+
+    @GET(Constants.GET_CONSTRUCTOR_STANDINGS)
+    suspend fun getConstructorStandings(): ConstructorStandingModel
 
 }

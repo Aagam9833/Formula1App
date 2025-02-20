@@ -2,4 +2,6 @@
     <string name="app_name">Slipstream Picks</string>
     <string name="schedule">Schedule</string>
     <string name="round">Round %1$s</string>
+    <string name="standings">Standings</string>
+    <string name="pts">%1$s Pts</string>
 </resources>

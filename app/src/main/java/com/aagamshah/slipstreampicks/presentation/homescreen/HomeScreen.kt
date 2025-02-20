@@ -215,7 +215,8 @@ fun TimerCard(
 @Composable
 fun DriverStandingCard(driverStandingData: DriverStandingModel?) {
     driverStandingData?.let {
-        val pageCount = (driverStandingData.drivers.size + 4) / 5
+        val total = driverStandingData.drivers?.size ?: 0
+        val pageCount = (total + 4) / 5
         val pagerState = rememberPagerState(pageCount = { pageCount })
 
         Column(modifier = Modifier.padding(16.dp)) {
@@ -263,9 +264,9 @@ fun DriverStandingCard(driverStandingData: DriverStandingModel?) {
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     val startIndex = page * 5
-                    val endIndex = minOf(startIndex + 5, driverStandingData.drivers.size)
-                    val driversOnPage = driverStandingData.drivers.subList(startIndex, endIndex)
-                    driversOnPage.forEachIndexed { index, driver ->
+                    val endIndex = minOf(startIndex + 5, total)
+                    val driversOnPage = driverStandingData.drivers?.subList(startIndex, endIndex)
+                    driversOnPage?.forEachIndexed { index, driver ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier

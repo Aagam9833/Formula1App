@@ -2,10 +2,12 @@ package com.aagamshah.slipstreampicks.di
 
 import com.aagamshah.slipstreampicks.common.Constants
 import com.aagamshah.slipstreampicks.data.remote.ApiService
+import com.aagamshah.slipstreampicks.data.repositoryimpl.ConstructorStandingRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.CurrentSeasonRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.HomeRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.NavigationRepositoryImpl
+import com.aagamshah.slipstreampicks.domain.repository.ConstructorStandingRepository
 import com.aagamshah.slipstreampicks.domain.repository.CurrentSeasonRepository
 import com.aagamshah.slipstreampicks.domain.repository.DriverStandingRepository
 import com.aagamshah.slipstreampicks.domain.repository.HomeRepository
@@ -55,6 +57,12 @@ object AppModule {
     @Singleton
     fun provideDriverStandingRepository(apiService: ApiService): DriverStandingRepository {
         return DriverStandingRepositoryImpl(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideConstructorStandingRepository(apiService: ApiService): ConstructorStandingRepository {
+        return ConstructorStandingRepositoryImpl(apiService)
     }
 
     @Provides

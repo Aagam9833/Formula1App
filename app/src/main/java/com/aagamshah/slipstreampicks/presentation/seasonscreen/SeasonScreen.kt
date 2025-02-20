@@ -94,7 +94,7 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
     }
 }
 
-
+//region SEASON LIST COMPONENT
 @Composable
 fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel) {
     if (races.isNullOrEmpty()) {
@@ -181,3 +181,4 @@ fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel) {
         }
     }
 }
+//endregion
