@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.CustomBottomNavigationBar
+import com.aagamshah.slipstreampicks.presentation.fantasyscreen.fantasyScreenRoute
 import com.aagamshah.slipstreampicks.presentation.homescreen.homeScreenRoute
 import com.aagamshah.slipstreampicks.presentation.seasonscreen.seasonScreenRoute
 import com.aagamshah.slipstreampicks.presentation.settingsscreen.settingsScreenRoute
@@ -39,6 +40,7 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel = 
                     seasonScreenRoute(navController)
                     standingsScreenRoute(navController)
                     settingsScreenRoute(navController)
+                    fantasyScreenRoute(navController)
                 }
                 CustomBottomNavigationBar(
                     navController,

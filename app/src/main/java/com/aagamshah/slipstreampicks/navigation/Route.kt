@@ -6,4 +6,5 @@ sealed class Route(val route: String) {
     data object SeasonScreen : Route("season_screen")
     data object StandingsScreen : Route("standings_screen")
     data object SettingsScreen : Route("settings_screen")
+    data object FantasyScreen : Route("fantasy_screen")
 }

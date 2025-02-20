@@ -25,11 +25,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.Race
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
@@ -63,6 +65,15 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
                 pagerState.animateScrollToPage(index)
             }
         }
+
+        Text(
+            text = stringResource(R.string.schedule).uppercase(),
+            style = AppTypography.headlineLarge,
+            color = Color.White,
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        )
 
         HorizontalPager(
             state = pagerState,
@@ -142,7 +153,7 @@ fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel) {
                         ) {
                             Text(
                                 modifier = Modifier.padding(8.dp),
-                                text = "Round ${race.round}",
+                                text = stringResource(R.string.round, race.round),
                                 style = AppTypography.titleSmall,
                                 color = Formula1Red
                             )
