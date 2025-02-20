@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.CustomBottomNavigationBar
 import com.aagamshah.slipstreampicks.presentation.fantasyscreen.fantasyScreenRoute
@@ -29,11 +30,16 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel = 
         Scaffold(
             containerColor = Color.Black
         ) { paddingValues ->
-            Box(modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()) {
+
+            val childNavController = rememberNavController()
+
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
                 NavHost(
-                    navController = navController,
+                    navController = childNavController,
                     startDestination = Route.HomeScreen.route
                 ) {
                     homeScreenRoute(navController)
@@ -43,7 +49,7 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel = 
                     fantasyScreenRoute(navController)
                 }
                 CustomBottomNavigationBar(
-                    navController,
+                    childNavController,
                     navigationData,
                     modifier = Modifier
                         .padding(32.dp)

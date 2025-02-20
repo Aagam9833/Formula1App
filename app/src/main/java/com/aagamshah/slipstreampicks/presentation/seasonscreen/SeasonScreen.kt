@@ -1,6 +1,7 @@
 package com.aagamshah.slipstreampicks.presentation.seasonscreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.Race
+import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.DarkGrey
@@ -82,12 +84,12 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
             when (page) {
                 0 -> {
                     setSelected(0)
-                    SeasonListComponent(data?.upcomingRaces, seasonViewModel, false)
+                    SeasonListComponent(data?.upcomingRaces, seasonViewModel, false, navController)
                 }
 
                 1 -> {
                     setSelected(1)
-                    SeasonListComponent(data?.pastRaces, seasonViewModel, true)
+                    SeasonListComponent(data?.pastRaces, seasonViewModel, true, navController)
                 }
             }
         }
@@ -96,7 +98,12 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
 
 //region SEASON LIST COMPONENT
 @Composable
-fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel, isPast: Boolean) {
+fun SeasonListComponent(
+    races: List<Race>?,
+    seasonViewModel: SeasonViewModel,
+    isPast: Boolean,
+    navController: NavController,
+) {
     if (races.isNullOrEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
@@ -109,7 +116,13 @@ fun SeasonListComponent(races: List<Race>?, seasonViewModel: SeasonViewModel, is
         LazyColumn(contentPadding = PaddingValues(bottom = 100.dp)) {
             items(races) { race ->
                 Card(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .clickable {
+//                            if (isPast) {
+                            navController.navigate("${Route.RaceResultScreen.route}/${race.round}")
+//                            }
+                        },
                     colors = CardDefaults.cardColors(containerColor = DarkGrey),
                 ) {
                     Row {
