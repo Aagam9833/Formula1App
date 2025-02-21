@@ -32,6 +32,9 @@ class HomeViewModel @Inject constructor(
     private val driverStandingUseCase: DriverStandingUseCase,
 ) : ViewModel() {
 
+    private val _isLoading = mutableStateOf<Boolean>(false)
+    val isLoading: Boolean get() = _isLoading.value
+
     private val _homeModel = mutableStateOf<HomeModel?>(null)
     val homeModel: HomeModel? get() = _homeModel.value
 
@@ -52,14 +55,16 @@ class HomeViewModel @Inject constructor(
             homeUseCase.invoke().onEach { result ->
                 when (result) {
                     is Resource.Error -> {
+                        _isLoading.value = false
                         Log.d(Constants.TAG, result.message ?: "Something went wrong")
                     }
 
                     is Resource.Loading -> {
-                        Log.d(Constants.TAG, "Loading")
+                        _isLoading.value = true
                     }
 
                     is Resource.Success -> {
+                        _isLoading.value = false
                         result.data?.let {
                             _homeModel.value = it
                             startCountdown(it.nextSession)
@@ -75,14 +80,17 @@ class HomeViewModel @Inject constructor(
             driverStandingUseCase.invoke().onEach { result ->
                 when (result) {
                     is Resource.Error -> {
+                        _isLoading.value = false
                         Log.d(Constants.TAG, result.message ?: "Something went wrong")
                     }
 
                     is Resource.Loading -> {
+                        _isLoading.value = true
                         Log.d(Constants.TAG, "Loading")
                     }
 
                     is Resource.Success -> {
+                        _isLoading.value = false
                         result.data?.let {
                             _driverStandingModel.value = it
                         }

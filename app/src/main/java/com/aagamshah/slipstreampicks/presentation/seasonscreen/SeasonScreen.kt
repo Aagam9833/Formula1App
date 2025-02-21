@@ -17,6 +17,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -53,43 +54,56 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
     val (selected, setSelected) = remember {
         mutableIntStateOf(0)
     }
+    val isLoading = seasonViewModel.isLoading
 
-    Column {
-        CustomTab(
-            items = listOf("Upcoming Grand Prix", "Past Grand Prix"),
-            selectedItemIndex = selected,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 32.dp)
-        ) { index ->
-            setSelected(index)
-            coroutineScope.launch {
-                pagerState.animateScrollToPage(index)
-            }
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
         }
+    } else {
 
-        Text(
-            text = stringResource(R.string.schedule).uppercase(),
-            style = AppTypography.headlineLarge,
-            color = Color.White,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        )
-
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { page ->
-            when (page) {
-                0 -> {
-                    setSelected(0)
-                    SeasonListComponent(data?.upcomingRaces, seasonViewModel, false, navController)
+        Column {
+            CustomTab(
+                items = listOf("Upcoming Grand Prix", "Past Grand Prix"),
+                selectedItemIndex = selected,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 32.dp)
+            ) { index ->
+                setSelected(index)
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(index)
                 }
+            }
 
-                1 -> {
-                    setSelected(1)
-                    SeasonListComponent(data?.pastRaces, seasonViewModel, true, navController)
+            Text(
+                text = stringResource(R.string.schedule).uppercase(),
+                style = AppTypography.headlineLarge,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        setSelected(0)
+                        SeasonListComponent(
+                            data?.upcomingRaces,
+                            seasonViewModel,
+                            false,
+                            navController
+                        )
+                    }
+
+                    1 -> {
+                        setSelected(1)
+                        SeasonListComponent(data?.pastRaces, seasonViewModel, true, navController)
+                    }
                 }
             }
         }

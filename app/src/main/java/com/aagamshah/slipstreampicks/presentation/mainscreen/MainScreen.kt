@@ -3,6 +3,7 @@ package com.aagamshah.slipstreampicks.presentation.mainscreen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,38 +26,44 @@ import com.aagamshah.slipstreampicks.presentation.standingsscreen.standingsScree
 fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel = hiltViewModel()) {
 
     val navigationData = mainViewModel.navigationModel
+    val isLoading = mainViewModel.isLoading
 
-    navigationData?.let {
-        Scaffold(
-            containerColor = Color.Black
-        ) { paddingValues ->
+    Scaffold(
+        containerColor = Color.Black
+    ) { paddingValues ->
 
-            val childNavController = rememberNavController()
+        if (isLoading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+            navigationData?.let {
+                val childNavController = rememberNavController()
 
-            Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                NavHost(
-                    navController = childNavController,
-                    startDestination = Route.HomeScreen.route
-                ) {
-                    homeScreenRoute(navController)
-                    seasonScreenRoute(navController)
-                    standingsScreenRoute(navController)
-                    settingsScreenRoute(navController)
-                    fantasyScreenRoute(navController)
-                }
-                CustomBottomNavigationBar(
-                    childNavController,
-                    navigationData,
+                Box(
                     modifier = Modifier
-                        .padding(32.dp)
-                        .align(Alignment.BottomCenter),
-                )
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                ) {
+                    NavHost(
+                        navController = childNavController,
+                        startDestination = Route.HomeScreen.route
+                    ) {
+                        homeScreenRoute(navController)
+                        seasonScreenRoute(navController)
+                        standingsScreenRoute(navController)
+                        settingsScreenRoute(navController)
+                        fantasyScreenRoute(navController)
+                    }
+                    CustomBottomNavigationBar(
+                        childNavController,
+                        navigationData,
+                        modifier = Modifier
+                            .padding(32.dp)
+                            .align(Alignment.BottomCenter),
+                    )
+                }
             }
         }
     }
-
 }

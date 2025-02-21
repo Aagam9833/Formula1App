@@ -22,6 +22,9 @@ class MainViewModel @Inject constructor(
     private val _navigationModel = mutableStateOf<NavigationModel?>(null)
     val navigationModel: NavigationModel? get() = _navigationModel.value
 
+    private val _isLoading = mutableStateOf<Boolean>(false)
+    val isLoading: Boolean get() = _isLoading.value
+
     init {
         callNavigationApi()
     }
@@ -31,14 +34,16 @@ class MainViewModel @Inject constructor(
             navigationUseCase.invoke().onEach { result ->
                 when (result) {
                     is Resource.Error -> {
+                        _isLoading.value = false
                         Log.d(Constants.TAG, result.message ?: "Something went wrong")
                     }
 
                     is Resource.Loading -> {
-                        Log.d(Constants.TAG, "Loading")
+                        _isLoading.value = true
                     }
 
                     is Resource.Success -> {
+                        _isLoading.value = false
                         result.data?.let {
                             _navigationModel.value = it
                         }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -50,27 +51,34 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
     val homeData = homeViewModel.homeModel
     val remainingTime = homeViewModel.remainingTime.collectAsState().value
     val driverStandingData = homeViewModel.driverStandingModel
+    val isLoading = homeViewModel.isLoading
 
-    homeData?.let { data ->
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 100.dp)
-        ) {
-            Box {
-                TopCard(data.circuit.url, data.raceName)
-                TimerCard(
-                    sessionTitle = data.nextSession.name,
-                    remainingTime = remainingTime,
-                    outlineUrl = data.circuit.outlineUrl,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .offset(y = 80.dp)
-                )
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    } else {
+        homeData?.let { data ->
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 100.dp)
+            ) {
+                Box {
+                    TopCard(data.circuit.url, data.raceName)
+                    TimerCard(
+                        sessionTitle = data.nextSession.name,
+                        remainingTime = remainingTime,
+                        outlineUrl = data.circuit.outlineUrl,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .offset(y = 80.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(100.dp))
+                DriverStandingCard(driverStandingData)
+
             }
-            Spacer(modifier = Modifier.height(100.dp))
-            DriverStandingCard(driverStandingData)
-
         }
     }
 }

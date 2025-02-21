@@ -23,6 +23,9 @@ class SeasonViewModel @Inject constructor(
     private val currentSeasonUseCase: CurrentSeasonUseCase,
 ) : ViewModel() {
 
+    private val _isLoading = mutableStateOf<Boolean>(false)
+    val isLoading: Boolean get() = _isLoading.value
+
     private val _currentSeasonModel = mutableStateOf<CurrentSeasonModel?>(null)
     val currentSeasonModel: CurrentSeasonModel? get() = _currentSeasonModel.value
 
@@ -35,14 +38,17 @@ class SeasonViewModel @Inject constructor(
             currentSeasonUseCase.invoke().onEach { result ->
                 when (result) {
                     is Resource.Error -> {
+                        _isLoading.value = false
                         Log.d(Constants.TAG, result.message ?: "Something went wrong")
                     }
 
                     is Resource.Loading -> {
+                        _isLoading.value = true
                         Log.d(Constants.TAG, "Loading")
                     }
 
                     is Resource.Success -> {
+                        _isLoading.value = false
                         result.data?.let {
                             _currentSeasonModel.value = it
                         }

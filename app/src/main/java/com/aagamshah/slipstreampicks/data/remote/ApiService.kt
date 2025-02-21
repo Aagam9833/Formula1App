@@ -6,7 +6,9 @@ import com.aagamshah.slipstreampicks.domain.model.CurrentSeasonModel
 import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
 import com.aagamshah.slipstreampicks.domain.model.HomeModel
 import com.aagamshah.slipstreampicks.domain.model.NavigationModel
+import com.aagamshah.slipstreampicks.domain.model.RaceResultModel
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -24,5 +26,8 @@ interface ApiService {
 
     @GET(Constants.GET_CONSTRUCTOR_STANDINGS)
     suspend fun getConstructorStandings(): ConstructorStandingModel
+
+    @GET(Constants.GET_ROUND_RESULT)
+    suspend fun getRoundResults(@Query("round") round: String): RaceResultModel
 
 }

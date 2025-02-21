@@ -7,11 +7,13 @@ import com.aagamshah.slipstreampicks.data.repositoryimpl.CurrentSeasonRepository
 import com.aagamshah.slipstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.HomeRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.NavigationRepositoryImpl
+import com.aagamshah.slipstreampicks.data.repositoryimpl.RaceResultRepositoryImpl
 import com.aagamshah.slipstreampicks.domain.repository.ConstructorStandingRepository
 import com.aagamshah.slipstreampicks.domain.repository.CurrentSeasonRepository
 import com.aagamshah.slipstreampicks.domain.repository.DriverStandingRepository
 import com.aagamshah.slipstreampicks.domain.repository.HomeRepository
 import com.aagamshah.slipstreampicks.domain.repository.NavigationRepository
+import com.aagamshah.slipstreampicks.domain.repository.RaceResultRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -75,6 +77,12 @@ object AppModule {
     @Singleton
     fun provideCurrentSeasonRepository(apiService: ApiService): CurrentSeasonRepository {
         return CurrentSeasonRepositoryImpl(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRaceResultRepository(apiService: ApiService): RaceResultRepository {
+        return RaceResultRepositoryImpl(apiService)
     }
 
 }

@@ -19,6 +19,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -58,6 +59,7 @@ fun StandingsScreen(
 
     val driverData = standingsViewModel.driverStandingModel
     val constructorData = standingsViewModel.constructorStandingModel
+    val isLoading = standingsViewModel.isLoading
 
     val pagerState = rememberPagerState { 2 }
     val coroutineScope = rememberCoroutineScope()
@@ -65,42 +67,49 @@ fun StandingsScreen(
         mutableIntStateOf(0)
     }
 
-    Column {
-        CustomTab(
-            items = listOf("Driver", "Constructor"),
-            selectedItemIndex = selected,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 32.dp)
-        ) { index ->
-            setSelected(index)
-            coroutineScope.launch {
-                pagerState.animateScrollToPage(index)
-            }
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
         }
+    } else {
 
-        Text(
-            text = stringResource(R.string.standings).uppercase(),
-            style = AppTypography.headlineLarge,
-            color = Color.White,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        )
-
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { page ->
-            when (page) {
-                0 -> {
-                    setSelected(0)
-                    DriverStandingComposable(driverData)
+        Column {
+            CustomTab(
+                items = listOf("Driver", "Constructor"),
+                selectedItemIndex = selected,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 32.dp)
+            ) { index ->
+                setSelected(index)
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(index)
                 }
+            }
 
-                1 -> {
-                    setSelected(1)
-                    ConstructorStandingComposable(constructorData)
+            Text(
+                text = stringResource(R.string.standings).uppercase(),
+                style = AppTypography.headlineLarge,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        setSelected(0)
+                        DriverStandingComposable(driverData)
+                    }
+
+                    1 -> {
+                        setSelected(1)
+                        ConstructorStandingComposable(constructorData)
+                    }
                 }
             }
         }

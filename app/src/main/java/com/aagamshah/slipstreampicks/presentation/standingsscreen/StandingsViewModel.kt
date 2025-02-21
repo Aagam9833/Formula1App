@@ -22,6 +22,9 @@ class StandingsViewModel @Inject constructor(
     private val constructorStandingUseCase: ConstructorStandingUseCase,
 ) : ViewModel() {
 
+    private val _isLoading = mutableStateOf<Boolean>(false)
+    val isLoading: Boolean get() = _isLoading.value
+
     private val _driverStandingModel = mutableStateOf<DriverStandingModel?>(null)
     val driverStandingModel: DriverStandingModel? get() = _driverStandingModel.value
 
@@ -38,14 +41,17 @@ class StandingsViewModel @Inject constructor(
             driverStandingUseCase.invoke().onEach { result ->
                 when (result) {
                     is Resource.Error -> {
+                        _isLoading.value = false
                         Log.d(Constants.TAG, result.message ?: "Something went wrong")
                     }
 
                     is Resource.Loading -> {
+                        _isLoading.value = true
                         Log.d(Constants.TAG, "Loading")
                     }
 
                     is Resource.Success -> {
+                        _isLoading.value = false
                         result.data?.let {
                             _driverStandingModel.value = it
                         }
@@ -60,14 +66,17 @@ class StandingsViewModel @Inject constructor(
             constructorStandingUseCase.invoke().onEach { result ->
                 when (result) {
                     is Resource.Error -> {
+                        _isLoading.value = false
                         Log.d(Constants.TAG, result.message ?: "Something went wrong")
                     }
 
                     is Resource.Loading -> {
+                        _isLoading.value = true
                         Log.d(Constants.TAG, "Loading")
                     }
 
                     is Resource.Success -> {
+                        _isLoading.value = false
                         result.data?.let {
                             _constructorStandingModel.value = it
                         }

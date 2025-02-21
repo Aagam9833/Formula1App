@@ -16,6 +16,7 @@ object Constants {
     const val GET_CONSTRUCTOR_STANDINGS = "${VERSION_V1}/currentConstructorStandings"
     const val NAVIGATION = "${VERSION_V1}/navigation"
     const val CURRENT_SEASON = "${VERSION_V1}/currentSeasonRaces"
+    const val GET_ROUND_RESULT = "${VERSION_V1}/raceResults"
 
     //APP CONSTANTS
 
