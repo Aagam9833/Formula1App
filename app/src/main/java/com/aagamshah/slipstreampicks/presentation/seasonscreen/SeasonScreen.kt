@@ -133,9 +133,9 @@ fun SeasonListComponent(
                     modifier = Modifier
                         .padding(16.dp)
                         .clickable {
-//                            if (isPast) {
-                            navController.navigate("${Route.RaceResultScreen.route}/${race.round}")
-//                            }
+                            if (isPast) {
+                                navController.navigate("${Route.RaceResultScreen.route}/${race.round}")
+                            }
                         },
                     colors = CardDefaults.cardColors(containerColor = DarkGrey),
                 ) {

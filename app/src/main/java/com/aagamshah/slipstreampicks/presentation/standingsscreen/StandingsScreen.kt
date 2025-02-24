@@ -30,15 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
@@ -46,6 +40,7 @@ import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.ConstructorStandingModel
 import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
+import com.aagamshah.slipstreampicks.presentation.components.OutlinedText
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.BlackWhite
 import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
@@ -315,22 +310,4 @@ fun DriverStandingComposable(driverData: DriverStandingModel?) {
             }
         }
     }
-}
-
-@Composable
-fun OutlinedText(number: String, outlineColor: Color) {
-    val formattedNumber = if (number.length == 1) "0$number" else number
-    Text(
-        text = formattedNumber,
-        style = TextStyle.Default.copy(
-            fontSize = 100.sp,
-            fontFamily = FontFamily(Font(R.font.f1_bold)),
-            drawStyle = Stroke(
-                miter = 10f,
-                width = 5f,
-                join = StrokeJoin.Round
-            ),
-            color = outlineColor.copy(alpha = 0.6f),
-        ),
-    )
 }

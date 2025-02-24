@@ -94,6 +94,9 @@ dependencies {
     //Pager
     implementation(libs.pager)
 
+    //Lottie
+    implementation(libs.lottie)
+
 }
 
 ksp {
