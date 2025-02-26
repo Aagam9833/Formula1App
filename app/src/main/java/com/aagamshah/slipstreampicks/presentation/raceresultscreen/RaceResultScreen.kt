@@ -34,7 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.aagamshah.slipstreampicks.R
-import com.aagamshah.slipstreampicks.domain.model.Result
+import com.aagamshah.slipstreampicks.domain.model.response.Result
 import com.aagamshah.slipstreampicks.presentation.components.OutlinedText
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.DarkGrey

@@ -1,7 +1,7 @@
 package com.aagamshah.slipstreampicks.domain.usecase
 
 import com.aagamshah.slipstreampicks.common.Resource
-import com.aagamshah.slipstreampicks.domain.model.ConstructorStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.ConstructorStandingModel
 import com.aagamshah.slipstreampicks.domain.repository.ConstructorStandingRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -85,4 +85,16 @@ object AppModule {
         return RaceResultRepositoryImpl(apiService)
     }
 
+//    @Provides
+//    @Singleton
+//    fun provideSignUpRepository(apiService: ApiService): SignUpRepository {
+//        return SignUpRepositoryImpl(apiService)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideLoginRepository(apiService: ApiService): LoginRepository {
+//        return LoginRepositoryImpl(apiService)
+//    }
+
 }

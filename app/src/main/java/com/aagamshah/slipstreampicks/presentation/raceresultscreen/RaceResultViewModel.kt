@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aagamshah.slipstreampicks.common.Constants
 import com.aagamshah.slipstreampicks.common.Resource
-import com.aagamshah.slipstreampicks.domain.model.RaceResultModel
+import com.aagamshah.slipstreampicks.domain.model.response.RaceResultModel
 import com.aagamshah.slipstreampicks.domain.usecase.RaceResultUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect

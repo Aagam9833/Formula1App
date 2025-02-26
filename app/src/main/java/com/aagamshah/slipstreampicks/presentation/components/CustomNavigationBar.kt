@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.aagamshah.slipstreampicks.R
-import com.aagamshah.slipstreampicks.domain.model.NavigationModel
+import com.aagamshah.slipstreampicks.domain.model.response.NavigationModel
 import com.aagamshah.slipstreampicks.ui.theme.Grey
 
 @Composable

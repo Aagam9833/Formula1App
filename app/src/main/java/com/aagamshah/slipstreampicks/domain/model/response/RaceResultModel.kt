@@ -1,4 +1,4 @@
-package com.aagamshah.slipstreampicks.domain.model
+package com.aagamshah.slipstreampicks.domain.model.response
 
 data class RaceResultModel(
     val round: String,

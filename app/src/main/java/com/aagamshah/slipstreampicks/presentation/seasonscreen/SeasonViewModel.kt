@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aagamshah.slipstreampicks.common.Constants
 import com.aagamshah.slipstreampicks.common.Resource
-import com.aagamshah.slipstreampicks.domain.model.CurrentSeasonModel
-import com.aagamshah.slipstreampicks.domain.model.SessionDetail
+import com.aagamshah.slipstreampicks.domain.model.response.CurrentSeasonModel
+import com.aagamshah.slipstreampicks.domain.model.response.SessionDetail
 import com.aagamshah.slipstreampicks.domain.usecase.CurrentSeasonUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect

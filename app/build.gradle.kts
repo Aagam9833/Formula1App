@@ -97,6 +97,11 @@ dependencies {
     //Lottie
     implementation(libs.lottie)
 
+    //Room database
+    implementation(libs.room.runtime)
+    ksp(libs.room.ksp) // Use KSP instead of kapt
+    implementation(libs.room.ktx)
+
 }
 
 ksp {

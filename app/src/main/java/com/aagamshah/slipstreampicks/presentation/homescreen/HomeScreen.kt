@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.presentation.components.DotsIndicator
 import com.aagamshah.slipstreampicks.presentation.components.TimeUnitBox
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography

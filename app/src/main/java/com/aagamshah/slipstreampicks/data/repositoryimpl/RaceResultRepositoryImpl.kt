@@ -1,7 +1,7 @@
 package com.aagamshah.slipstreampicks.data.repositoryimpl
 
 import com.aagamshah.slipstreampicks.data.remote.ApiService
-import com.aagamshah.slipstreampicks.domain.model.RaceResultModel
+import com.aagamshah.slipstreampicks.domain.model.response.RaceResultModel
 import com.aagamshah.slipstreampicks.domain.repository.RaceResultRepository
 import javax.inject.Inject
 

@@ -1,12 +1,12 @@
 package com.aagamshah.slipstreampicks.data.remote
 
 import com.aagamshah.slipstreampicks.common.Constants
-import com.aagamshah.slipstreampicks.domain.model.ConstructorStandingModel
-import com.aagamshah.slipstreampicks.domain.model.CurrentSeasonModel
-import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
-import com.aagamshah.slipstreampicks.domain.model.HomeModel
-import com.aagamshah.slipstreampicks.domain.model.NavigationModel
-import com.aagamshah.slipstreampicks.domain.model.RaceResultModel
+import com.aagamshah.slipstreampicks.domain.model.response.ConstructorStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.CurrentSeasonModel
+import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.HomeModel
+import com.aagamshah.slipstreampicks.domain.model.response.NavigationModel
+import com.aagamshah.slipstreampicks.domain.model.response.RaceResultModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -29,5 +29,12 @@ interface ApiService {
 
     @GET(Constants.GET_ROUND_RESULT)
     suspend fun getRoundResults(@Query("round") round: String): RaceResultModel
+
+//    @POST(Constants.SIGN_UP)
+//    suspend fun postSignUp(@Body signUpRequestModel: SignUpRequestModel): SignUpResponseModel
+//
+//    @POST(Constants.LOGIN)
+//    suspend fun postLogin(@Body loginRequestModel: LoginRequestModel): SignUpResponseModel
+
 
 }

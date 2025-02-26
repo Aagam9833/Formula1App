@@ -37,8 +37,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.aagamshah.slipstreampicks.R
-import com.aagamshah.slipstreampicks.domain.model.ConstructorStandingModel
-import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.ConstructorStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
 import com.aagamshah.slipstreampicks.presentation.components.OutlinedText
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography

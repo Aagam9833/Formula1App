@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aagamshah.slipstreampicks.common.Constants
 import com.aagamshah.slipstreampicks.common.Resource
-import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
-import com.aagamshah.slipstreampicks.domain.model.HomeModel
-import com.aagamshah.slipstreampicks.domain.model.NextSession
+import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.HomeModel
+import com.aagamshah.slipstreampicks.domain.model.response.NextSession
 import com.aagamshah.slipstreampicks.domain.usecase.DriverStandingUseCase
 import com.aagamshah.slipstreampicks.domain.usecase.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

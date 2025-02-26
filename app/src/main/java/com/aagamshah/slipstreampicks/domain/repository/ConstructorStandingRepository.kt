@@ -1,6 +1,6 @@
 package com.aagamshah.slipstreampicks.domain.repository
 
-import com.aagamshah.slipstreampicks.domain.model.ConstructorStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.ConstructorStandingModel
 
 interface ConstructorStandingRepository {
 

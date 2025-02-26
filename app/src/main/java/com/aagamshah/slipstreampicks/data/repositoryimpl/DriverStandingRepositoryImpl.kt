@@ -1,7 +1,7 @@
 package com.aagamshah.slipstreampicks.data.repositoryimpl
 
 import com.aagamshah.slipstreampicks.data.remote.ApiService
-import com.aagamshah.slipstreampicks.domain.model.DriverStandingModel
+import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.domain.repository.DriverStandingRepository
 import javax.inject.Inject
 

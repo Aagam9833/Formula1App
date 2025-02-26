@@ -1,7 +1,7 @@
 package com.aagamshah.slipstreampicks.domain.usecase
 
 import com.aagamshah.slipstreampicks.common.Resource
-import com.aagamshah.slipstreampicks.domain.model.HomeModel
+import com.aagamshah.slipstreampicks.domain.model.response.HomeModel
 import com.aagamshah.slipstreampicks.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -1,7 +1,7 @@
 package com.aagamshah.slipstreampicks.domain.usecase
 
 import com.aagamshah.slipstreampicks.common.Resource
-import com.aagamshah.slipstreampicks.domain.model.NavigationModel
+import com.aagamshah.slipstreampicks.domain.model.response.NavigationModel
 import com.aagamshah.slipstreampicks.domain.repository.NavigationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

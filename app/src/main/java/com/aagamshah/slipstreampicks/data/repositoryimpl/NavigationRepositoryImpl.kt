@@ -1,7 +1,7 @@
 package com.aagamshah.slipstreampicks.data.repositoryimpl
 
 import com.aagamshah.slipstreampicks.data.remote.ApiService
-import com.aagamshah.slipstreampicks.domain.model.NavigationModel
+import com.aagamshah.slipstreampicks.domain.model.response.NavigationModel
 import com.aagamshah.slipstreampicks.domain.repository.NavigationRepository
 import javax.inject.Inject
 

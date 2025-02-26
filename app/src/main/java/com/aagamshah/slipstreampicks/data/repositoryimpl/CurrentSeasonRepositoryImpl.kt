@@ -1,7 +1,7 @@
 package com.aagamshah.slipstreampicks.data.repositoryimpl
 
 import com.aagamshah.slipstreampicks.data.remote.ApiService
-import com.aagamshah.slipstreampicks.domain.model.CurrentSeasonModel
+import com.aagamshah.slipstreampicks.domain.model.response.CurrentSeasonModel
 import com.aagamshah.slipstreampicks.domain.repository.CurrentSeasonRepository
 import javax.inject.Inject
 
