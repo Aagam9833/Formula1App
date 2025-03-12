@@ -1,4 +1,4 @@
-package com.aagamshah.slipstreampicks.common
+package com.aagamshah.slipstreampicks.utils
 
 sealed class Resource<T>(
     val data: T? = null,

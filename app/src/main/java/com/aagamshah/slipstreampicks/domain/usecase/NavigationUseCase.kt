@@ -1,12 +1,11 @@
 package com.aagamshah.slipstreampicks.domain.usecase
 
-import com.aagamshah.slipstreampicks.common.Resource
+import com.aagamshah.slipstreampicks.utils.ApiExceptionHandler
+import com.aagamshah.slipstreampicks.utils.Resource
 import com.aagamshah.slipstreampicks.domain.model.response.NavigationModel
 import com.aagamshah.slipstreampicks.domain.repository.NavigationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class NavigationUseCase @Inject constructor(
@@ -18,10 +17,8 @@ class NavigationUseCase @Inject constructor(
             emit(Resource.Loading())
             val data = navigationRepository.getNavigation()
             emit(Resource.Success(data))
-        } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Something went wrong!"))
-        } catch (e: IOException) {
-            emit(Resource.Error(e.localizedMessage ?: "Check your internet connection"))
+        } catch (e: Exception) {
+            emit(Resource.Error(ApiExceptionHandler.handleException(e)))
         }
     }
 

@@ -102,6 +102,12 @@ dependencies {
     ksp(libs.room.ksp) // Use KSP instead of kapt
     implementation(libs.room.ktx)
 
+    //Shared Preferences
+    implementation(libs.shared.preferences)
+
+    //Material Icons
+    implementation(libs.material.icons)
+
 }
 
 ksp {

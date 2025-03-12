@@ -22,6 +22,8 @@ liveEdit = "1.7.0"
 pager = "0.30.1"
 lottie = "6.4.1"
 room = "2.6.1"
+sharedPreferences = "1.1.0-alpha06"
+materialIcons = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -77,6 +79,12 @@ lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = 
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ksp = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
+#Shared Preferences
+shared-preferences = { group = "androidx.security", name = "security-crypto", version.ref = "sharedPreferences" }
+
+#Material Icons
+material-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIcons" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

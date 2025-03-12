@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aagamshah.slipstreampicks.common.Constants
-import com.aagamshah.slipstreampicks.common.Resource
+import com.aagamshah.slipstreampicks.utils.Constants
+import com.aagamshah.slipstreampicks.utils.Resource
 import com.aagamshah.slipstreampicks.domain.model.response.ConstructorStandingModel
 import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.domain.usecase.ConstructorStandingUseCase

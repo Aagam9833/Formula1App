@@ -1,19 +1,10 @@
 package com.aagamshah.slipstreampicks.di
 
-import com.aagamshah.slipstreampicks.common.Constants
+import android.app.Application
+import android.content.Context
 import com.aagamshah.slipstreampicks.data.remote.ApiService
-import com.aagamshah.slipstreampicks.data.repositoryimpl.ConstructorStandingRepositoryImpl
-import com.aagamshah.slipstreampicks.data.repositoryimpl.CurrentSeasonRepositoryImpl
-import com.aagamshah.slipstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
-import com.aagamshah.slipstreampicks.data.repositoryimpl.HomeRepositoryImpl
-import com.aagamshah.slipstreampicks.data.repositoryimpl.NavigationRepositoryImpl
-import com.aagamshah.slipstreampicks.data.repositoryimpl.RaceResultRepositoryImpl
-import com.aagamshah.slipstreampicks.domain.repository.ConstructorStandingRepository
-import com.aagamshah.slipstreampicks.domain.repository.CurrentSeasonRepository
-import com.aagamshah.slipstreampicks.domain.repository.DriverStandingRepository
-import com.aagamshah.slipstreampicks.domain.repository.HomeRepository
-import com.aagamshah.slipstreampicks.domain.repository.NavigationRepository
-import com.aagamshah.slipstreampicks.domain.repository.RaceResultRepository
+import com.aagamshah.slipstreampicks.utils.AuthorizationInterceptor
+import com.aagamshah.slipstreampicks.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +21,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiService(): ApiService {
+    fun provideApiService(authorizationInterceptor: AuthorizationInterceptor): ApiService {
 
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -38,6 +29,7 @@ object AppModule {
 
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(authorizationInterceptor)
             .build()
 
         return Retrofit.Builder()
@@ -51,50 +43,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideHomeRepository(apiService: ApiService): HomeRepository {
-        return HomeRepositoryImpl(apiService)
+    fun provideAuthorizationInterceptor(context: Context): AuthorizationInterceptor {
+        return AuthorizationInterceptor(context)
     }
 
     @Provides
     @Singleton
-    fun provideDriverStandingRepository(apiService: ApiService): DriverStandingRepository {
-        return DriverStandingRepositoryImpl(apiService)
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
     }
-
-    @Provides
-    @Singleton
-    fun provideConstructorStandingRepository(apiService: ApiService): ConstructorStandingRepository {
-        return ConstructorStandingRepositoryImpl(apiService)
-    }
-
-    @Provides
-    @Singleton
-    fun provideNavigationRepository(apiService: ApiService): NavigationRepository {
-        return NavigationRepositoryImpl(apiService)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCurrentSeasonRepository(apiService: ApiService): CurrentSeasonRepository {
-        return CurrentSeasonRepositoryImpl(apiService)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRaceResultRepository(apiService: ApiService): RaceResultRepository {
-        return RaceResultRepositoryImpl(apiService)
-    }
-
-//    @Provides
-//    @Singleton
-//    fun provideSignUpRepository(apiService: ApiService): SignUpRepository {
-//        return SignUpRepositoryImpl(apiService)
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideLoginRepository(apiService: ApiService): LoginRepository {
-//        return LoginRepositoryImpl(apiService)
-//    }
 
 }

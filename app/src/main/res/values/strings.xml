@@ -4,4 +4,12 @@
     <string name="round">Round %1$s</string>
     <string name="standings">Standings</string>
     <string name="pts">%1$s Pts</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="new_to_slipstream_picks">New to Slipstream Picks?</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="existing_user">Existing User?</string>
+    <string name="proceed">Proceed</string>
 </resources>

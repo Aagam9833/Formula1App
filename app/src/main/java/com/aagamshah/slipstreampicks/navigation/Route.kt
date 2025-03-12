@@ -8,4 +8,6 @@ sealed class Route(val route: String) {
     data object SettingsScreen : Route("settings_screen")
     data object FantasyScreen : Route("fantasy_screen")
     data object RaceResultScreen : Route("race_result_screen")
+    data object SignUpLoginScreen : Route("sign_up_login_screen")
+    data object SplashScreen : Route("splash_screen")
 }
