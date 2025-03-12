@@ -1,6 +1,5 @@
 package com.aagamshah.slipstreampicks.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,6 +22,7 @@ import com.aagamshah.slipstreampicks.ui.theme.DarkGrey
 
 @Composable
 fun ErrorPopUp(message: String, modifier: Modifier = Modifier, onDismiss: () -> Unit) {
+
     Dialog(onDismissRequest = { onDismiss() }) {
         Card(
             modifier = modifier.defaultMinSize(minHeight = 200.dp, minWidth = 200.dp),
@@ -36,12 +35,18 @@ fun ErrorPopUp(message: String, modifier: Modifier = Modifier, onDismiss: () -> 
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Image(painter = painterResource(R.drawable.ic_red_light), contentDescription = "")
                 Text(
                     text = "Box box!",
                     style = AppTypography.titleLarge,
                     color = Color.White,
                     textAlign = TextAlign.Center
+                )
+                CustomAnimation(
+                    modifier = modifier,
+                    lottieRes = R.raw.boxbox,
+                    loop = true,
+                    isPlaying = true,
+                    size = 1f
                 )
                 Text(
                     text = message,
