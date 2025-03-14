@@ -16,4 +16,14 @@ interface UserDao {
 
     @Query("DELETE FROM user")
     suspend fun clearUser()
+
+    @Query("UPDATE user SET username = :username")
+    suspend fun updateUsername(username: String)
+
+    @Query("UPDATE user SET email = :email")
+    suspend fun updateEmail(email: String)
+
+    @Query("UPDATE user SET profileImage = :imageUrl")
+    suspend fun updateProfileImage(imageUrl: String)
+
 }

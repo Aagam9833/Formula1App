@@ -1,5 +1,6 @@
 package com.aagamshah.slipstreampicks.data.repositoryimpl
 
+import android.util.Log
 import com.aagamshah.slipstreampicks.data.local.dao.UserDao
 import com.aagamshah.slipstreampicks.data.local.entity.UserEntity
 import com.aagamshah.slipstreampicks.data.local.sharedpreferences.PreferenceManager
@@ -21,8 +22,11 @@ class SignUpRepositoryImpl @Inject constructor(
             id = response.user.id,
             email = response.user.email,
             username = response.user.username,
+            profileImage = response.user.profileImage
         )
         userDao.insertUser(userEntity)
+
+        Log.d("TAGGED", userEntity.toString())
 
         preferenceManager.saveAccessToken(response.token)
 

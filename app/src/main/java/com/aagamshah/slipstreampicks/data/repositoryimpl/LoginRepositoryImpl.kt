@@ -21,6 +21,7 @@ class LoginRepositoryImpl @Inject constructor(
             id = response.user.id,
             email = response.user.email,
             username = response.user.username,
+            profileImage = response.user.profileImage
         )
         userDao.insertUser(userEntity)
 

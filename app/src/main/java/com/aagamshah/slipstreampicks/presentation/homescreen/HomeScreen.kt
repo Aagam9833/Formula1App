@@ -174,37 +174,61 @@ fun TimerCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (remainingTime.showDays) {
-                        TimeUnitBox(value = remainingTime.first, label = "DAYS")
+                        TimeUnitBox(
+                            value = remainingTime.first,
+                            label = "DAYS",
+                            modifier = Modifier.weight(1f) // Ensure equal width
+                        )
                         VerticalDivider(
                             color = Color.White,
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .width(1.dp)
                         )
-                        TimeUnitBox(value = remainingTime.second, label = "HRS")
+                        TimeUnitBox(
+                            value = remainingTime.second,
+                            label = "HRS",
+                            modifier = Modifier.weight(1f)
+                        )
                         VerticalDivider(
                             color = Color.White,
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .width(1.dp)
                         )
-                        TimeUnitBox(value = remainingTime.third, label = "MINS")
+                        TimeUnitBox(
+                            value = remainingTime.third,
+                            label = "MINS",
+                            modifier = Modifier.weight(1f)
+                        )
                     } else {
-                        TimeUnitBox(value = remainingTime.first, label = "HRS")
+                        TimeUnitBox(
+                            value = remainingTime.first,
+                            label = "HRS",
+                            modifier = Modifier.weight(1f)
+                        )
                         VerticalDivider(
                             color = Color.White,
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .width(1.dp)
                         )
-                        TimeUnitBox(value = remainingTime.second, label = "MINS")
+                        TimeUnitBox(
+                            value = remainingTime.second,
+                            label = "MINS",
+                            modifier = Modifier.weight(1f)
+                        )
                         VerticalDivider(
                             color = Color.White,
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .width(1.dp)
                         )
-                        TimeUnitBox(value = remainingTime.third, label = "SECS")
+                        TimeUnitBox(
+                            value = remainingTime.third,
+                            label = "SECS",
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
             }

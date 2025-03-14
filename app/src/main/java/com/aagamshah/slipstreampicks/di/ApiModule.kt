@@ -6,17 +6,21 @@ import com.aagamshah.slipstreampicks.data.remote.ApiService
 import com.aagamshah.slipstreampicks.data.repositoryimpl.ConstructorStandingRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.CurrentSeasonRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
+import com.aagamshah.slipstreampicks.data.repositoryimpl.GetFantasyHomeRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.HomeRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.LoginRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.NavigationRepositoryImpl
+import com.aagamshah.slipstreampicks.data.repositoryimpl.ProfileImageRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.RaceResultRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.SignUpRepositoryImpl
 import com.aagamshah.slipstreampicks.domain.repository.ConstructorStandingRepository
 import com.aagamshah.slipstreampicks.domain.repository.CurrentSeasonRepository
 import com.aagamshah.slipstreampicks.domain.repository.DriverStandingRepository
+import com.aagamshah.slipstreampicks.domain.repository.GetFantasyHomeRepository
 import com.aagamshah.slipstreampicks.domain.repository.HomeRepository
 import com.aagamshah.slipstreampicks.domain.repository.LoginRepository
 import com.aagamshah.slipstreampicks.domain.repository.NavigationRepository
+import com.aagamshah.slipstreampicks.domain.repository.ProfileImageRepository
 import com.aagamshah.slipstreampicks.domain.repository.RaceResultRepository
 import com.aagamshah.slipstreampicks.domain.repository.SignUpRepository
 import dagger.Module
@@ -85,4 +89,18 @@ object ApiModule {
         return LoginRepositoryImpl(apiService, userDao, preferenceManager)
     }
 
+    @Provides
+    @Singleton
+    fun provideGetFantasyHomeRepository(apiService: ApiService): GetFantasyHomeRepository {
+        return GetFantasyHomeRepositoryImpl(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUploadProfileImageRepository(
+        apiService: ApiService,
+        userDao: UserDao
+    ): ProfileImageRepository {
+        return ProfileImageRepositoryImpl(apiService, userDao)
+    }
 }

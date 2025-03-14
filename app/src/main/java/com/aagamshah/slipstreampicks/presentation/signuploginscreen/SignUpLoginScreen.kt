@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.aagamshah.slipstreampicks.R
-import com.aagamshah.slipstreampicks.utils.CardFace
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.presentation.components.FlipCard
@@ -30,6 +29,7 @@ import com.aagamshah.slipstreampicks.presentation.components.LoginUI
 import com.aagamshah.slipstreampicks.presentation.components.PrimaryButton
 import com.aagamshah.slipstreampicks.presentation.components.SignupUI
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
+import com.aagamshah.slipstreampicks.utils.CardFace
 
 @Composable
 fun SignUpLoginScreen(
@@ -102,7 +102,12 @@ fun SignUpLoginScreen(
                 {
                     if (cardFace == CardFace.Front) {
                         signUpLoginViewModel.loginValidations(loginIdentifier, loginPassword) {
-                            navController.navigate(Route.MainScreen.route)
+                            navController.navigate(Route.MainScreen.route) {
+                                popUpTo(Route.SignUpLoginScreen.route) {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
                         }
                     } else {
                         signUpLoginViewModel.signUpValidations(
@@ -110,7 +115,12 @@ fun SignUpLoginScreen(
                             signUpEmail,
                             signUpPassword,
                         ) {
-                            navController.navigate(Route.MainScreen.route)
+                            navController.navigate(Route.ImageUploadScreen.route) {
+                                popUpTo(Route.SignUpLoginScreen.route) {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
                         }
                     }
                 },

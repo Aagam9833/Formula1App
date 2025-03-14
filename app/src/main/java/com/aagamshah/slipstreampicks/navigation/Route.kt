@@ -10,4 +10,5 @@ sealed class Route(val route: String) {
     data object RaceResultScreen : Route("race_result_screen")
     data object SignUpLoginScreen : Route("sign_up_login_screen")
     data object SplashScreen : Route("splash_screen")
+    data object ImageUploadScreen : Route("image_upload_screen")
 }

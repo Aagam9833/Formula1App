@@ -3,6 +3,7 @@ package com.aagamshah.slipstreampicks.presentation.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,14 +14,14 @@ import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import java.util.Locale
 
 @Composable
-fun TimeUnitBox(value: Long, label: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun TimeUnitBox(value: Long, label: String, modifier: Modifier = Modifier) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.width(60.dp)) {
         Text(
             text = String.format(Locale.US, "%02d", value),
             style = AppTypography.displayLarge,
             color = Color.White
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = modifier.height(4.dp))
         Text(
             text = label,
             style = AppTypography.bodyMedium,

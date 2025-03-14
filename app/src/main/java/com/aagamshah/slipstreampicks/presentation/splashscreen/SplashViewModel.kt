@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aagamshah.slipstreampicks.data.local.sharedpreferences.PreferenceManager
 import com.aagamshah.slipstreampicks.domain.usecase.GetUserUseCase
+import com.aagamshah.slipstreampicks.utils.JwtUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +23,10 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             val user = userUseCase.invoke()
             val token = preferenceManager.getAccessToken()
-            _isUserLoggedIn.value = user != null && !token.isNullOrEmpty()
+
+            val isValidToken = token?.let { !JwtUtils.isTokenExpired(it) } == true
+
+            _isUserLoggedIn.value = user != null && isValidToken
         }
     }
 }

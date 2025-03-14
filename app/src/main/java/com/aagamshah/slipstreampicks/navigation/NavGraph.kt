@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.aagamshah.slipstreampicks.presentation.fantasyscreen.fantasyScreenRoute
 import com.aagamshah.slipstreampicks.presentation.homescreen.homeScreenRoute
+import com.aagamshah.slipstreampicks.presentation.imageuploadscreen.imageUploadScreenRoute
 import com.aagamshah.slipstreampicks.presentation.mainscreen.mainScreenRoute
 import com.aagamshah.slipstreampicks.presentation.raceresultscreen.raceResultScreenRoute
 import com.aagamshah.slipstreampicks.presentation.seasonscreen.seasonScreenRoute
@@ -25,5 +26,6 @@ fun NavGraph(navController: NavHostController) {
         raceResultScreenRoute(navController)
         signUpLoginScreenRoute(navController)
         splashScreenRoute(navController)
+        imageUploadScreenRoute(navController)
     }
 }

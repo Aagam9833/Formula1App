@@ -22,7 +22,7 @@ class UserRepositoryImpl @Inject constructor(
         userDao.clearUser()
     }
 
-    private fun UserEntity.toDomain() = User(id, email, username)
-    private fun User.toEntity() = UserEntity(id, email, username)
+    private fun UserEntity.toDomain() = User(id, email, username, profileImage)
+    private fun User.toEntity() = UserEntity(id, email, username, profileImage)
 
 }
