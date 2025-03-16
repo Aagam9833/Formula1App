@@ -100,35 +100,37 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun startCountdown(session: NextSession) {
-        val targetTime = parseSessionTime(session.date, session.time)
+    private fun startCountdown(session: NextSession?) {
+        if (session != null) {
+            val targetTime = parseSessionTime(session.date, session.time)
 
-        countdownJob?.cancel()
-        countdownJob = viewModelScope.launch {
-            while (true) {
-                val now = Instant.now()
-                val duration = Duration.between(now, targetTime).coerceAtLeast(Duration.ZERO)
+            countdownJob?.cancel()
+            countdownJob = viewModelScope.launch {
+                while (true) {
+                    val now = Instant.now()
+                    val duration = Duration.between(now, targetTime).coerceAtLeast(Duration.ZERO)
 
-                if (duration.isZero) {
-                    _remainingTime.value = CountdownState(0, 0, 0, false)
-                    countdownJob?.cancel()
-                    countdownJob = null
-                    break
+                    if (duration.isZero) {
+                        _remainingTime.value = CountdownState(0, 0, 0, false)
+                        countdownJob?.cancel()
+                        countdownJob = null
+                        break
+                    }
+
+                    val totalHours = duration.toHours()
+                    val days = totalHours / 24
+                    val hours = totalHours % 24
+                    val minutes = duration.toMinutes() % 60
+                    val seconds = duration.seconds % 60
+
+                    _remainingTime.value = if (totalHours > 99) {
+                        CountdownState(days, hours, minutes, showDays = true)
+                    } else {
+                        CountdownState(totalHours, minutes, seconds, showDays = false)
+                    }
+
+                    delay(if (totalHours > 99) 60 * 1000L else 1000L)
                 }
-
-                val totalHours = duration.toHours()
-                val days = totalHours / 24
-                val hours = totalHours % 24
-                val minutes = duration.toMinutes() % 60
-                val seconds = duration.seconds % 60
-
-                _remainingTime.value = if (totalHours > 99) {
-                    CountdownState(days, hours, minutes, showDays = true)
-                } else {
-                    CountdownState(totalHours, minutes, seconds, showDays = false)
-                }
-
-                delay(if (totalHours > 99) 60 * 1000L else 1000L)
             }
         }
     }

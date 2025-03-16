@@ -4,7 +4,7 @@ data class HomeModel(
     val raceName: String,
     val location: Location,
     val circuit: Circuit,
-    val nextSession: NextSession,
+    val nextSession: NextSession?,
 )
 
 data class Circuit(

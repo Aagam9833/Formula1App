@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.sp
 import com.aagamshah.slipstreampicks.R
 
 @Composable
-fun OutlinedText(number: String, outlineColor: Color, textSize: TextUnit = 100.sp) {
-    val formattedNumber = if (number.length == 1) "0$number" else number
+fun OutlinedText(number: String?, outlineColor: Color, textSize: TextUnit = 100.sp) {
+    val formattedNumber = number?.let { if (it.length == 1) "0$it" else it } ?: "DNF"
     Text(
         text = formattedNumber,
         style = TextStyle.Default.copy(

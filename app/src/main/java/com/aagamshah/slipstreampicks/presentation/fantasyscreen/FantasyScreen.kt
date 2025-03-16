@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +36,7 @@ fun FantasyScreen(
     val isLoading = fantasyViewModel.isLoading
 
     if (isLoading) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     }
@@ -75,7 +76,7 @@ fun FantasyScreenPreview() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Slipstream Picks Fantasy",
+                text = stringResource(R.string.slipstream_picks_fantasy),
                 style = AppTypography.displayLarge,
                 color = Color.White,
                 textAlign = TextAlign.Center
@@ -94,7 +95,7 @@ fun FantasyScreenPreview() {
                     isEnabled = true
                 )
             } else {
-
+            
             }
         }
     }

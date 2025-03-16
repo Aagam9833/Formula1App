@@ -66,14 +66,16 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
             ) {
                 Box {
                     TopCard(data.circuit.url, data.raceName)
-                    TimerCard(
-                        sessionTitle = data.nextSession.name,
-                        remainingTime = remainingTime,
-                        outlineUrl = data.circuit.outlineUrl,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .offset(y = 80.dp)
-                    )
+                    if(data.nextSession != null) {
+                        TimerCard(
+                            sessionTitle = data.nextSession.name,
+                            remainingTime = remainingTime,
+                            outlineUrl = data.circuit.outlineUrl,
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .offset(y = 80.dp)
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(100.dp))
                 DriverStandingCard(driverStandingData)

@@ -27,11 +27,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.PrimaryButton
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
@@ -85,7 +87,7 @@ fun ImageUploadScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Upload profile image",
+                    text = stringResource(R.string.upload_profile_image),
                     style = AppTypography.headlineLarge,
                     color = Color.White,
                     modifier = Modifier.fillMaxWidth(),
@@ -99,7 +101,7 @@ fun ImageUploadScreen(
                 ) {
                     AsyncImage(
                         model = imageUri ?: imageUrl,
-                        contentDescription = "Profile Image",
+                        contentDescription = stringResource(R.string.profile_image),
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(screenWidth * 0.7f)
@@ -111,7 +113,7 @@ fun ImageUploadScreen(
                     )
                     if (imageUri == null) {
                         Text(
-                            text = "Tap to select an image",
+                            text = stringResource(R.string.tap_to_select_an_image),
                             style = AppTypography.titleSmall,
                             color = Color.White,
                             modifier = Modifier.align(Alignment.Center)
@@ -120,7 +122,7 @@ fun ImageUploadScreen(
                 }
             }
             PrimaryButton(
-                text = "Upload",
+                text = stringResource(R.string.upload),
                 onClick = {
                     imageUri?.let {
                         imageUploadViewModel.uploadImage(

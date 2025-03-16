@@ -32,6 +32,14 @@ android {
             )
         }
     }
+
+    applicationVariants.configureEach {
+        val apkName = "SlipstreamPicks-v${versionName}-${buildType.name}.apk"
+        outputs.configureEach {
+            (this as com.android.build.gradle.internal.api.ApkVariantOutputImpl).outputFileName = apkName
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

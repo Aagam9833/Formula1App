@@ -2,28 +2,14 @@ package com.aagamshah.slipstreampicks.presentation.seasonscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,11 +23,7 @@ import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.response.Race
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
-import com.aagamshah.slipstreampicks.ui.theme.AppTypography
-import com.aagamshah.slipstreampicks.ui.theme.DarkGrey
-import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
-import com.aagamshah.slipstreampicks.ui.theme.Grey
-import com.aagamshah.slipstreampicks.ui.theme.LightGrey
+import com.aagamshah.slipstreampicks.ui.theme.*
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,9 +33,6 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
 
     val pagerState = rememberPagerState { 2 }
     val coroutineScope = rememberCoroutineScope()
-    val (selected, setSelected) = remember {
-        mutableIntStateOf(0)
-    }
     val isLoading = seasonViewModel.isLoading
 
     if (isLoading) {
@@ -61,23 +40,26 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
             CircularProgressIndicator()
         }
     } else {
-
         Column {
             CustomTab(
-                items = listOf("Upcoming Grand Prix", "Past Grand Prix"),
-                selectedItemIndex = selected,
+                items = listOf(
+                    stringResource(R.string.upcoming_grand_prix),
+                    stringResource(R.string.past_grand_prix)
+                ),
+                selectedItemIndex = pagerState.currentPage,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 32.dp)
             ) { index ->
-                setSelected(index)
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(index)
                 }
             }
 
             Text(
-                text = stringResource(R.string.schedule).uppercase(),
+                text = if (pagerState.currentPage == 0) stringResource(R.string.schedule).uppercase() else stringResource(
+                    R.string.races
+                ).uppercase(),
                 style = AppTypography.headlineLarge,
                 color = Color.White,
                 modifier = Modifier
@@ -89,28 +71,17 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
-                when (page) {
-                    0 -> {
-                        setSelected(0)
-                        SeasonListComponent(
-                            data?.upcomingRaces,
-                            seasonViewModel,
-                            false,
-                            navController
-                        )
-                    }
-
-                    1 -> {
-                        setSelected(1)
-                        SeasonListComponent(data?.pastRaces, seasonViewModel, true, navController)
-                    }
-                }
+                SeasonListComponent(
+                    races = if (page == 0) data?.upcomingRaces else data?.pastRaces,
+                    seasonViewModel = seasonViewModel,
+                    isPast = (page == 1),
+                    navController = navController
+                )
             }
         }
     }
 }
 
-//region SEASON LIST COMPONENT
 @Composable
 fun SeasonListComponent(
     races: List<Race>?,
@@ -121,7 +92,7 @@ fun SeasonListComponent(
     if (races.isNullOrEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
-                text = "Waiting for lights out!",
+                text = stringResource(R.string.waiting_for_lights_out),
                 style = AppTypography.displayLarge,
                 textAlign = TextAlign.Center
             )
@@ -200,7 +171,7 @@ fun SeasonListComponent(
                         AsyncImage(
                             modifier = Modifier.weight(2f),
                             model = race.circuit.url,
-                            contentDescription = ""
+                            contentDescription = null
                         )
                     }
                 }
@@ -208,4 +179,3 @@ fun SeasonListComponent(
         }
     }
 }
-//endregion

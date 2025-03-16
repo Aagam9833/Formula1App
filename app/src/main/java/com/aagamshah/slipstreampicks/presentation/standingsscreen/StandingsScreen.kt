@@ -22,8 +22,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,25 +56,20 @@ fun StandingsScreen(
 
     val pagerState = rememberPagerState { 2 }
     val coroutineScope = rememberCoroutineScope()
-    val (selected, setSelected) = remember {
-        mutableIntStateOf(0)
-    }
 
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     } else {
-
         Column {
             CustomTab(
                 items = listOf("Driver", "Constructor"),
-                selectedItemIndex = selected,
+                selectedItemIndex = pagerState.currentPage,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 32.dp)
             ) { index ->
-                setSelected(index)
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(index)
                 }
@@ -95,17 +88,9 @@ fun StandingsScreen(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
-                when (page) {
-                    0 -> {
-                        setSelected(0)
-                        DriverStandingComposable(driverData)
-                    }
-
-                    1 -> {
-                        setSelected(1)
-                        ConstructorStandingComposable(constructorData)
-                    }
-                }
+                if (page == 0) DriverStandingComposable(driverData) else ConstructorStandingComposable(
+                    constructorData
+                )
             }
         }
     }
