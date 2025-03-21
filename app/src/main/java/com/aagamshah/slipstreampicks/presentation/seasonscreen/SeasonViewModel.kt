@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aagamshah.slipstreampicks.utils.Constants
-import com.aagamshah.slipstreampicks.utils.Resource
 import com.aagamshah.slipstreampicks.domain.model.response.CurrentSeasonModel
 import com.aagamshah.slipstreampicks.domain.model.response.SessionDetail
 import com.aagamshah.slipstreampicks.domain.usecase.CurrentSeasonUseCase
+import com.aagamshah.slipstreampicks.utils.Constants
+import com.aagamshah.slipstreampicks.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -29,6 +29,9 @@ class SeasonViewModel @Inject constructor(
     private val _currentSeasonModel = mutableStateOf<CurrentSeasonModel?>(null)
     val currentSeasonModel: CurrentSeasonModel? get() = _currentSeasonModel.value
 
+    private val _errorMessage = mutableStateOf<String?>(null)
+    val errorMessage: String? get() = _errorMessage.value
+
     init {
         getCurrentSeason()
     }
@@ -39,7 +42,7 @@ class SeasonViewModel @Inject constructor(
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
-                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                        _errorMessage.value = result.message
                     }
 
                     is Resource.Loading -> {
@@ -79,5 +82,8 @@ class SeasonViewModel @Inject constructor(
         }
     }
 
+    fun dismissError() {
+        _errorMessage.value = null
+    }
 
 }

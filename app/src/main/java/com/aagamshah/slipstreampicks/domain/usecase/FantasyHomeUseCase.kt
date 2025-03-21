@@ -7,10 +7,10 @@ import com.aagamshah.slipstreampicks.domain.repository.GetFantasyHomeRepository
 import com.aagamshah.slipstreampicks.domain.repository.SaveFantasyTeamRepository
 import com.aagamshah.slipstreampicks.domain.repository.UserRepository
 import com.aagamshah.slipstreampicks.presentation.components.FantasyCardModel
+import com.aagamshah.slipstreampicks.utils.ApiExceptionHandler
 import com.aagamshah.slipstreampicks.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class FantasyHomeUseCase @Inject constructor(
@@ -29,8 +29,8 @@ class FantasyHomeUseCase @Inject constructor(
                 val data = getFantasyHomeRepository.getFantasyHome(userId)
                 emit(Resource.Success(data))
             }
-        } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Something went wrong!"))
+        } catch (e: Exception) {
+            emit(Resource.Error(ApiExceptionHandler.handleException(e)))
         }
     }
 
@@ -55,7 +55,7 @@ class FantasyHomeUseCase @Inject constructor(
                 emit(Resource.Success(response))
             }
         } catch (e: Exception) {
-            emit(Resource.Error(e.localizedMessage ?: "Something went wrong!"))
+            emit(Resource.Error(ApiExceptionHandler.handleException(e)))
         }
     }
 

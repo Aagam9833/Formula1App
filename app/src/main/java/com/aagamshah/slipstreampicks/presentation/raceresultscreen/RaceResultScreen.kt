@@ -21,6 +21,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +39,7 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.response.Result
+import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.presentation.components.OutlinedText
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.DarkGrey
@@ -46,6 +51,18 @@ fun RaceResultScreen(
     raceResultViewModel: RaceResultViewModel = hiltViewModel(),
     roundNumber: String,
 ) {
+
+    val errorMessage = raceResultViewModel.errorMessage
+    var showPopup by remember { mutableStateOf(false) }
+
+    LaunchedEffect(errorMessage) {
+        showPopup = errorMessage != null
+    }
+
+    if (!errorMessage.isNullOrEmpty()) {
+        ErrorPopUp(errorMessage) { raceResultViewModel.dismissError() }
+    }
+
 
     LaunchedEffect(roundNumber) {
         raceResultViewModel.getRoundResults(roundNumber)

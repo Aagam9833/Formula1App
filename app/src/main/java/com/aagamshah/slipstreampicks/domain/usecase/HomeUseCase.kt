@@ -3,6 +3,7 @@ package com.aagamshah.slipstreampicks.domain.usecase
 import com.aagamshah.slipstreampicks.utils.Resource
 import com.aagamshah.slipstreampicks.domain.model.response.HomeModel
 import com.aagamshah.slipstreampicks.domain.repository.HomeRepository
+import com.aagamshah.slipstreampicks.utils.ApiExceptionHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -17,8 +18,8 @@ class HomeUseCase @Inject constructor(
             emit(Resource.Loading())
             val data = homeRepository.getHome()
             emit(Resource.Success(data))
-        } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Something went wrong!"))
+        } catch (e: Exception) {
+            emit(Resource.Error(ApiExceptionHandler.handleException(e)))
         }
     }
 

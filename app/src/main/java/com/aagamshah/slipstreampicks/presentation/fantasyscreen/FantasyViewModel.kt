@@ -1,6 +1,5 @@
 package com.aagamshah.slipstreampicks.presentation.fantasyscreen
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,6 @@ import com.aagamshah.slipstreampicks.domain.model.response.GetFantasyHomeRespons
 import com.aagamshah.slipstreampicks.domain.usecase.FantasyHomeUseCase
 import com.aagamshah.slipstreampicks.presentation.components.CardType
 import com.aagamshah.slipstreampicks.presentation.components.FantasyCardModel
-import com.aagamshah.slipstreampicks.utils.Constants
 import com.aagamshah.slipstreampicks.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -35,6 +33,9 @@ class FantasyViewModel @Inject constructor(
     private val _currentUserTeam = mutableStateListOf<FantasyCardModel>()
     val currentUserTeam: List<FantasyCardModel?> get() = _currentUserTeam
 
+    private val _errorMessage = mutableStateOf<String?>(null)
+    val errorMessage: String? get() = _errorMessage.value
+
     init {
         getFantasyHome()
     }
@@ -45,7 +46,7 @@ class FantasyViewModel @Inject constructor(
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
-                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                        _errorMessage.value = result.message
                     }
 
                     is Resource.Loading -> {
@@ -68,7 +69,7 @@ class FantasyViewModel @Inject constructor(
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
-                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                        _errorMessage.value = result.message
                     }
 
                     is Resource.Loading -> {
@@ -137,5 +138,8 @@ class FantasyViewModel @Inject constructor(
         }
     }
 
+    fun dismissError() {
+        _errorMessage.value = null
+    }
 
 }

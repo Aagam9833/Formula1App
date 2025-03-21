@@ -27,7 +27,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -40,6 +45,7 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.presentation.components.DotsIndicator
+import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.presentation.components.TimeUnitBox
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
@@ -52,6 +58,17 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
     val remainingTime = homeViewModel.remainingTime.collectAsState().value
     val driverStandingData = homeViewModel.driverStandingModel
     val isLoading = homeViewModel.isLoading
+
+    val errorMessage = homeViewModel.errorMessage
+    var showPopup by remember { mutableStateOf(false) }
+
+    LaunchedEffect(errorMessage) {
+        showPopup = errorMessage != null
+    }
+
+    if (!errorMessage.isNullOrEmpty()) {
+        ErrorPopUp(errorMessage) { homeViewModel.dismissError() }
+    }
 
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -66,7 +83,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
             ) {
                 Box {
                     TopCard(data.circuit.url, data.raceName)
-                    if(data.nextSession != null) {
+                    if (data.nextSession != null) {
                         TimerCard(
                             sessionTitle = data.nextSession.name,
                             remainingTime = remainingTime,
@@ -254,7 +271,7 @@ fun DriverStandingCard(driverStandingData: DriverStandingModel?) {
         val pagerState = rememberPagerState(pageCount = { pageCount })
 
         Column(modifier = Modifier.padding(16.dp)) {
-            Row {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
                     driverStandingData.title,
                     style = AppTypography.headlineLarge
@@ -305,7 +322,7 @@ fun DriverStandingCard(driverStandingData: DriverStandingModel?) {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .background(color = if (index % 2 == 0) Grey else Color.Black)
-                                .height(30.dp)
+                                .height(40.dp)
                                 .fillMaxWidth()
                                 .padding(vertical = 4.dp)
                         ) {

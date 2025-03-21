@@ -19,8 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +35,7 @@ import androidx.navigation.NavController
 import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.response.toConstructorFantasyCardList
 import com.aagamshah.slipstreampicks.domain.model.response.toDriverFantasyCardList
+import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.presentation.components.FantasyBottomSheet
 import com.aagamshah.slipstreampicks.presentation.components.FantasyCard
 import com.aagamshah.slipstreampicks.presentation.components.FantasyCardModel
@@ -52,6 +56,12 @@ fun FantasyScreen(
 
     val isLoading = fantasyViewModel.isLoading
     val showBottomSheet = remember { mutableStateOf(false) }
+    val errorMessage = fantasyViewModel.errorMessage
+    var showPopup by remember { mutableStateOf(false) }
+
+    LaunchedEffect(errorMessage) {
+        showPopup = errorMessage != null
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -122,6 +132,9 @@ fun FantasyScreen(
                 }
             )
         }
+    }
+    if (!errorMessage.isNullOrEmpty()) {
+        ErrorPopUp(errorMessage) { fantasyViewModel.dismissError() }
     }
 }
 

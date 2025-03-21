@@ -25,13 +25,16 @@ class RaceResultViewModel @Inject constructor(
     private val _raceResultModel = mutableStateOf<RaceResultModel?>(null)
     val raceResultModel: RaceResultModel? get() = _raceResultModel.value
 
+    private val _errorMessage = mutableStateOf<String?>(null)
+    val errorMessage: String? get() = _errorMessage.value
+
     fun getRoundResults(roundNumber: String) {
         viewModelScope.launch {
             raceResultUseCase.invoke(roundNumber).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
-                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                        _errorMessage.value = result.message
                     }
 
                     is Resource.Loading -> {
@@ -50,5 +53,8 @@ class RaceResultViewModel @Inject constructor(
         }
     }
 
+    fun dismissError(){
+        _errorMessage.value = null
+    }
 
 }

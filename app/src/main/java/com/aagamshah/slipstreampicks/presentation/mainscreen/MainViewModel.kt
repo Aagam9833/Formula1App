@@ -25,6 +25,9 @@ class MainViewModel @Inject constructor(
     private val _isLoading = mutableStateOf<Boolean>(false)
     val isLoading: Boolean get() = _isLoading.value
 
+    private val _errorMessage = mutableStateOf<String?>(null)
+    val errorMessage: String? get() = _errorMessage.value
+
     init {
         callNavigationApi()
     }
@@ -35,7 +38,7 @@ class MainViewModel @Inject constructor(
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
-                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                        _errorMessage.value = result.message
                     }
 
                     is Resource.Loading -> {
@@ -51,5 +54,9 @@ class MainViewModel @Inject constructor(
                 }
             }.collect()
         }
+    }
+
+    fun dismissError(){
+        _errorMessage.value = null
     }
 }

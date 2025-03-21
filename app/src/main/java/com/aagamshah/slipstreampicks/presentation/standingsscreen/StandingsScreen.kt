@@ -22,7 +22,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -38,6 +43,7 @@ import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.response.ConstructorStandingModel
 import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
+import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.presentation.components.OutlinedText
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.BlackWhite
@@ -53,6 +59,18 @@ fun StandingsScreen(
     val driverData = standingsViewModel.driverStandingModel
     val constructorData = standingsViewModel.constructorStandingModel
     val isLoading = standingsViewModel.isLoading
+
+    val errorMessage = standingsViewModel.errorMessage
+    var showPopup by remember { mutableStateOf(false) }
+
+    LaunchedEffect(errorMessage) {
+        showPopup = errorMessage != null
+    }
+
+    if (!errorMessage.isNullOrEmpty()) {
+        ErrorPopUp(errorMessage) { standingsViewModel.dismissError() }
+    }
+
 
     val pagerState = rememberPagerState { 2 }
     val coroutineScope = rememberCoroutineScope()

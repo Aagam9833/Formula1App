@@ -1,16 +1,14 @@
 package com.aagamshah.slipstreampicks.presentation.homescreen
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aagamshah.slipstreampicks.utils.Constants
-import com.aagamshah.slipstreampicks.utils.Resource
 import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.domain.model.response.HomeModel
 import com.aagamshah.slipstreampicks.domain.model.response.NextSession
 import com.aagamshah.slipstreampicks.domain.usecase.DriverStandingUseCase
 import com.aagamshah.slipstreampicks.domain.usecase.HomeUseCase
+import com.aagamshah.slipstreampicks.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -45,6 +43,9 @@ class HomeViewModel @Inject constructor(
     val remainingTime: StateFlow<CountdownState> = _remainingTime.asStateFlow()
     private var countdownJob: Job? = null
 
+    private val _errorMessage = mutableStateOf<String?>(null)
+    val errorMessage: String? get() = _errorMessage.value
+
     init {
         callHomeApi()
         callDriverStandingApi()
@@ -56,7 +57,7 @@ class HomeViewModel @Inject constructor(
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
-                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                        _errorMessage.value = result.message
                     }
 
                     is Resource.Loading -> {
@@ -81,12 +82,11 @@ class HomeViewModel @Inject constructor(
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
-                        Log.d(Constants.TAG, result.message ?: "Something went wrong")
+                        _errorMessage.value = result.message
                     }
 
                     is Resource.Loading -> {
                         _isLoading.value = true
-                        Log.d(Constants.TAG, "Loading")
                     }
 
                     is Resource.Success -> {
@@ -138,6 +138,10 @@ class HomeViewModel @Inject constructor(
     private fun parseSessionTime(date: String, time: String): Instant {
         val formatter = DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.UTC)
         return Instant.from(formatter.parse("${date}T${time}"))
+    }
+
+    fun dismissError() {
+        _errorMessage.value = null
     }
 
 }
