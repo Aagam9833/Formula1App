@@ -12,7 +12,7 @@
     <string name="email">Email</string>
     <string name="existing_user">Existing User?</string>
     <string name="proceed">Proceed</string>
-    <string name="slipstream_picks_fantasy">Slipstream Picks Fantasy</string>
+    <string name="slipstream_picks_fantasy">Slipstream Picks\nFantasy</string>
     <string name="races">Races</string>
     <string name="upcoming_grand_prix">Upcoming Grand Prix</string>
     <string name="past_grand_prix">Past Grand Prix</string>
@@ -22,4 +22,10 @@
     <string name="upload">Upload</string>
     <string name="upload_profile_image">Upload profile image</string>
     <string name="logout">Logout</string>
+    <string name="start">Start</string>
+    <string name="you_haven_t_set_your_fantasy_team">You haven\'t set your fantasy team</string>
+    <string name="your_team">Your team</string>
+    <string name="edit">Edit</string>
+    <string name="total_points">Total Points : %1$s</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

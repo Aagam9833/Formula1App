@@ -1,6 +1,7 @@
 package com.aagamshah.slipstreampicks.data.remote
 
 import com.aagamshah.slipstreampicks.domain.model.request.LoginRequestModel
+import com.aagamshah.slipstreampicks.domain.model.request.SaveFantasyTeamRequestModel
 import com.aagamshah.slipstreampicks.domain.model.request.SignUpRequestModel
 import com.aagamshah.slipstreampicks.domain.model.response.AuthResponseModel
 import com.aagamshah.slipstreampicks.domain.model.response.ConstructorStandingModel
@@ -8,6 +9,7 @@ import com.aagamshah.slipstreampicks.domain.model.response.CurrentSeasonModel
 import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.domain.model.response.GetFantasyHomeResponseModel
 import com.aagamshah.slipstreampicks.domain.model.response.HomeModel
+import com.aagamshah.slipstreampicks.domain.model.response.MessageResponseModel
 import com.aagamshah.slipstreampicks.domain.model.response.NavigationModel
 import com.aagamshah.slipstreampicks.domain.model.response.ProfileImageUploadResponse
 import com.aagamshah.slipstreampicks.domain.model.response.RaceResultModel
@@ -49,6 +51,9 @@ interface ApiService {
 
     @GET(Constants.GET_FANTASY_HOME)
     suspend fun getFantasyHome(@Query("user_id") userId: String): GetFantasyHomeResponseModel
+
+    @POST(Constants.SAVE_FANTASY_TEAM)
+    suspend fun setFantasyTeam(@Body data: SaveFantasyTeamRequestModel): MessageResponseModel
 
     @Multipart
     @POST(Constants.UPLOAD_PROFILE_IMAGE)

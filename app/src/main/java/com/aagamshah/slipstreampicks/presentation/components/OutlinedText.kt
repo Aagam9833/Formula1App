@@ -14,7 +14,7 @@ import com.aagamshah.slipstreampicks.R
 
 @Composable
 fun OutlinedText(number: String?, outlineColor: Color, textSize: TextUnit = 100.sp) {
-    val formattedNumber = number?.let { if (it.length == 1) "0$it" else it } ?: "DNF"
+    val formattedNumber = number?.let { if (it.length == 1) "0$it" else it } ?: "--"
     Text(
         text = formattedNumber,
         style = TextStyle.Default.copy(
