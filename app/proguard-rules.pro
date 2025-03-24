@@ -19,3 +19,22 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+# Keep Google HTTP Client classes
+-keep class com.google.api.client.http.** { *; }
+
+# Keep Joda-Time classes (used for time calculations)
+-keep class org.joda.time.** { *; }
+
+# Ignore all ErrorProne annotations (they are not required at runtime)
+-dontwarn com.google.errorprone.annotations.**
+
+# Keep Google Tink classes (ensures no critical code is stripped)
+-keep class com.google.crypto.tink.** { *; }
+
+# Suppress warnings related to missing Google HTTP Client
+-dontwarn com.google.api.client.**
+
+# Suppress warnings related to missing Joda-Time
+-dontwarn org.joda.time.**

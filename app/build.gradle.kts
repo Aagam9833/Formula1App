@@ -14,8 +14,8 @@ android {
         applicationId = "com.aagamshah.slipstreampicks"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 1         //24-03-2025
+        versionName = "1.0.0"   //24-03-2025
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -25,7 +25,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -115,6 +116,9 @@ dependencies {
 
     //Material Icons
     implementation(libs.material.icons)
+
+    //Joda Time
+    implementation(libs.joda.time)
 
 }
 

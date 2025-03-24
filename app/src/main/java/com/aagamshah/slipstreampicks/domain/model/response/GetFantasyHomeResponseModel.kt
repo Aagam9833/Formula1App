@@ -7,7 +7,8 @@ data class GetFantasyHomeResponseModel(
     val topRanks: List<CurrentUser>,
     val currentUser: CurrentUser?,
     val currentDrivers: List<CurrentDriver>,
-    val currentConstructors: List<CurrentConstructor>
+    val currentConstructors: List<CurrentConstructor>,
+    val isQualifyingOver: Boolean
 )
 
 data class CurrentConstructor(

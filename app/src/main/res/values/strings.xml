@@ -28,4 +28,13 @@
     <string name="edit">Edit</string>
     <string name="total_points">Total Points : %1$s</string>
     <string name="leaderboard">Leaderboard</string>
+    <string name="app_database">app_database</string>
+    <string name="pos">POS</string>
+    <string name="driver">DRIVER</string>
+    <string name="team">TEAM</string>
+    <string name="points">POINTS</string>
+    <string name="secs">SECS</string>
+    <string name="mins">MINS</string>
+    <string name="hrs">HRS</string>
+    <string name="days">DAYS</string>
 </resources>

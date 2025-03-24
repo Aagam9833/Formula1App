@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.data.local.dao.UserDao
 import com.aagamshah.slipstreampicks.data.local.entity.UserEntity
 
@@ -20,7 +21,7 @@ abstract class AppDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"
+                    context.getString(R.string.app_database)
                 ).build().also { INSTANCE = it }
             }
         }

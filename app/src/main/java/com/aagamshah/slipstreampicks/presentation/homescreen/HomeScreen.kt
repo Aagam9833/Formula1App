@@ -38,11 +38,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.response.DriverStandingModel
 import com.aagamshah.slipstreampicks.presentation.components.DotsIndicator
 import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
@@ -195,8 +197,8 @@ fun TimerCard(
                     if (remainingTime.showDays) {
                         TimeUnitBox(
                             value = remainingTime.first,
-                            label = "DAYS",
-                            modifier = Modifier.weight(1f) // Ensure equal width
+                            label = stringResource(R.string.days),
+                            modifier = Modifier.weight(1f)
                         )
                         VerticalDivider(
                             color = Color.White,
@@ -206,7 +208,7 @@ fun TimerCard(
                         )
                         TimeUnitBox(
                             value = remainingTime.second,
-                            label = "HRS",
+                            label = stringResource(R.string.hrs),
                             modifier = Modifier.weight(1f)
                         )
                         VerticalDivider(
@@ -217,13 +219,13 @@ fun TimerCard(
                         )
                         TimeUnitBox(
                             value = remainingTime.third,
-                            label = "MINS",
+                            label = stringResource(R.string.mins),
                             modifier = Modifier.weight(1f)
                         )
                     } else {
                         TimeUnitBox(
                             value = remainingTime.first,
-                            label = "HRS",
+                            label = stringResource(R.string.hrs),
                             modifier = Modifier.weight(1f)
                         )
                         VerticalDivider(
@@ -234,7 +236,7 @@ fun TimerCard(
                         )
                         TimeUnitBox(
                             value = remainingTime.second,
-                            label = "MINS",
+                            label = stringResource(R.string.mins),
                             modifier = Modifier.weight(1f)
                         )
                         VerticalDivider(
@@ -245,7 +247,7 @@ fun TimerCard(
                         )
                         TimeUnitBox(
                             value = remainingTime.third,
-                            label = "SECS",
+                            label = stringResource(R.string.secs),
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -281,24 +283,24 @@ fun DriverStandingCard(driverStandingData: DriverStandingModel?) {
             Spacer(modifier = Modifier.height(16.dp))
             Row {
                 Text(
-                    text = "POS",
+                    text = stringResource(R.string.pos),
                     style = AppTypography.bodyMedium,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.weight(0.1f))
                 Spacer(modifier = Modifier.weight(0.4f))
                 Text(
-                    text = "DRIVER",
+                    text = stringResource(R.string.driver),
                     style = AppTypography.bodyMedium,
                     modifier = Modifier.weight(4f)
                 )
                 Text(
-                    text = "TEAM",
+                    text = stringResource(R.string.team),
                     style = AppTypography.bodyMedium,
                     modifier = Modifier.weight(4f)
                 )
                 Text(
-                    text = "POINTS",
+                    text = stringResource(R.string.points),
                     style = AppTypography.bodyMedium,
                     modifier = Modifier.weight(2f)
                 )

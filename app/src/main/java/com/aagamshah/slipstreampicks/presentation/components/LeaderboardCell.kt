@@ -28,7 +28,9 @@ import com.aagamshah.slipstreampicks.ui.theme.SecondaryColor
 @Composable
 fun LeaderboardCell(modifier: Modifier, data: CurrentUser) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
         colors = CardDefaults.cardColors(containerColor = SecondaryColor),
     ) {
         Row(

@@ -92,7 +92,8 @@ fun FantasyScreen(
                     FantasyTeamCard(
                         fantasyTeam = fantasyTeam,
                         totalPoints = data.currentUser?.points ?: 0,
-                        onEditClick = { showBottomSheet.value = true }
+                        onEditClick = { showBottomSheet.value = true },
+                        editTeam = data.isQualifyingOver
                     )
                 }
 
@@ -172,7 +173,8 @@ fun NoFantasyTeamCard(onStartClick: () -> Unit) {
 fun FantasyTeamCard(
     fantasyTeam: List<FantasyCardModel?>,
     totalPoints: Long,
-    onEditClick: () -> Unit
+    onEditClick: () -> Unit,
+    editTeam: Boolean
 ) {
     Card(
         modifier = Modifier
@@ -209,14 +211,17 @@ fun FantasyTeamCard(
                 )
             }
             Text(
-                text = stringResource(R.string.total_points, totalPoints)
+                text = stringResource(R.string.total_points, totalPoints),
+                modifier = Modifier.padding(bottom = 8.dp)
             )
-            TertiaryButton(
-                text = stringResource(R.string.edit),
-                onClick = onEditClick,
-                modifier = Modifier.padding(16.dp),
-                isEnabled = true
-            )
+            if (!editTeam) {
+                TertiaryButton(
+                    text = stringResource(R.string.edit),
+                    onClick = onEditClick,
+                    modifier = Modifier.padding(16.dp),
+                    isEnabled = true
+                )
+            }
         }
     }
 }
