@@ -3,11 +3,9 @@ package com.aagamshah.slipstreampicks.utils
 object Constants {
 
     //API CONSTANTS
-    private const val isDebug = false
     const val TAG = "TAGGED"
 
-    val BASE_URL =
-        if (isDebug) "http://192.168.204.204:5000/" else "https://formula1server.onrender.com/"
+    const val BASE_URL = "https://formula1server.onrender.com/"
 
     private const val VERSION_V1 = "api/v1"
     private const val AUTH = "auth"

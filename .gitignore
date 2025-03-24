@@ -13,3 +13,18 @@
 .externalNativeBuild
 .cxx
 local.properties
+*.aab
+*.apk
+
+# Build outputs
+/app/build/
+/*.apk
+/*.aab
+
+# Android Studio build folders
+/.gradle/
+/build/
+/out/
+
+# IDE-specific files
+.idea/
