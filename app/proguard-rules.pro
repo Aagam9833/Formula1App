@@ -38,3 +38,8 @@
 
 # Suppress warnings related to missing Joda-Time
 -dontwarn org.joda.time.**
+
+# Keep AuthResponseModel and its nested User class
+-keep class com.aagamshah.slipstreampicks.domain.model.** { *; }
+
+
