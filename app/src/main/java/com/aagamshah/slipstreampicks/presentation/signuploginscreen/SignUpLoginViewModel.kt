@@ -70,13 +70,13 @@ class SignUpLoginViewModel @Inject constructor(
         onSuccess: () -> Unit
     ) {
         when {
-            username.isBlank() -> _errorMessage.value = "Username cannot be empty"
+            username.trim().replace(" ","").isBlank() -> _errorMessage.value = "Username cannot be empty"
             !email.isValidEmail() -> _errorMessage.value = "Invalid email format"
             password.length < 8 -> _errorMessage.value =
                 "Password must be at least 8 characters long"
         }
         viewModelScope.launch {
-            signUpUseCase.invoke(SignUpRequestModel(email, username, password)).onEach { result ->
+            signUpUseCase.invoke(SignUpRequestModel(email, username.trim().replace(" ",""), password)).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false

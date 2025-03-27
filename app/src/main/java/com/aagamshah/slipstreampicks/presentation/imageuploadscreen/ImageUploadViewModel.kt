@@ -1,7 +1,10 @@
 package com.aagamshah.slipstreampicks.presentation.imageuploadscreen
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +15,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,34 +44,51 @@ class ImageUploadViewModel @Inject constructor(
 
     fun uploadImage(uri: Uri, context: Context) {
         viewModelScope.launch {
-            uploadProfileImageUseCase.invoke(convertUriToFile(uri, context)).onEach { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _isLoading.value = false
-                        _uploadSuccess.value = false
-                    }
+            try {
+                val compressedFile = compressImage(uri, context)
 
-                    is Resource.Loading -> {
-                        _isLoading.value = true
-                    }
+                uploadProfileImageUseCase.invoke(compressedFile).onEach { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            _isLoading.value = false
+                            _uploadSuccess.value = false
+                        }
 
-                    is Resource.Success -> {
-                        _isLoading.value = false
-                        _uploadSuccess.value = true
+                        is Resource.Loading -> {
+                            _isLoading.value = true
+                        }
+
+                        is Resource.Success -> {
+                            _isLoading.value = false
+                            _uploadSuccess.value = true
+                        }
                     }
-                }
-            }.collect()
+                }.collect()
+            } catch (e: Exception) {
+                Log.e("TAGGED", "Image upload failed: ${e.message}", e)
+            }
         }
     }
 
-    private fun convertUriToFile(uri: Uri, context: Context): File {
-        val inputStream = context.contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image.jpg")
-        inputStream.use { input ->
-            file.outputStream().use { output ->
-                input?.copyTo(output)
-            }
+    private fun compressImage(uri: Uri, context: Context): File {
+        val originalBitmap =
+            BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
+        var quality = 100
+        val byteArrayOutputStream = ByteArrayOutputStream()
+
+        originalBitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
+
+        while (byteArrayOutputStream.size() > 1024 * 1024 && quality > 10) {
+            byteArrayOutputStream.reset()
+            quality -= 10
+            originalBitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
         }
+
+        val file = File(context.cacheDir, "compressed_upload_image.jpg")
+        FileOutputStream(file).use { it.write(byteArrayOutputStream.toByteArray()) }
+
+        originalBitmap.recycle()
+
         return file
     }
 

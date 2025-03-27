@@ -1,6 +1,7 @@
 package com.aagamshah.slipstreampicks.presentation.settingsscreen
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -82,6 +83,9 @@ fun SettingsScreen(
                         .aspectRatio(1f)
                         .clip(CircleShape)
                         .border(width = 1.dp, color = Formula1Red, shape = CircleShape)
+                        .clickable {
+                            navController.navigate(Route.ImageUploadScreen.route)
+                        }
                 )
             }
 

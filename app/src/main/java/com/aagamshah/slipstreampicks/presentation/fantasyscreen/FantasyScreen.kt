@@ -65,56 +65,64 @@ fun FantasyScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // Loader while data is loading
+
         if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
 
-        // Main Fantasy Content
         if (data != null) {
-            Column(
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(bottom = 100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(vertical = 16.dp),
+                contentPadding = PaddingValues(vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.slipstream_picks_fantasy),
-                    style = AppTypography.displayLarge,
-                    color = Color.White,
-                    textAlign = TextAlign.Center
-                )
-
-                if (fantasyTeam.isEmpty()) {
-                    NoFantasyTeamCard(onStartClick = { showBottomSheet.value = true })
-                } else {
-                    FantasyTeamCard(
-                        fantasyTeam = fantasyTeam,
-                        totalPoints = data.currentUser?.points ?: 0,
-                        onEditClick = { showBottomSheet.value = true },
-                        editTeam = data.isQualifyingOver
+                item {
+                    Text(
+                        text = stringResource(R.string.slipstream_picks_fantasy),
+                        style = AppTypography.displayLarge,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
 
-                Text(
-                    text = stringResource(R.string.leaderboard),
-                    style = AppTypography.headlineLarge,
-                    color = Color.White,
-                    textAlign = TextAlign.Center
-                )
+                item {
+                    if (fantasyTeam.isEmpty()) {
+                        NoFantasyTeamCard(onStartClick = { showBottomSheet.value = true })
+                    } else {
+                        FantasyTeamCard(
+                            fantasyTeam = fantasyTeam,
+                            totalPoints = data.currentUser?.points ?: 0,
+                            onEditClick = { showBottomSheet.value = true },
+                            editTeam = data.isQualifyingOver
+                        )
+                    }
+                }
+
+                item {
+                    Text(
+                        text = stringResource(R.string.leaderboard),
+                        style = AppTypography.headlineLarge,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
                 if (data.topRanks.isNotEmpty()) {
-                    LazyColumn(contentPadding = PaddingValues(16.dp)) {
-                        items(data.topRanks) { rankData ->
-                            LeaderboardCell(modifier = Modifier, data = rankData)
-                        }
+                    items(data.topRanks) { rankData ->
+                        LeaderboardCell(modifier = Modifier.padding(), data = rankData)
                     }
                 } else {
-                    Text(
-                        text = "No participants yet!",
-                        style = AppTypography.displayLarge,
-                        textAlign = TextAlign.Center
-                    )
+                    item {
+                        Text(
+                            text = "No participants yet!",
+                            style = AppTypography.displayLarge,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
         }
@@ -138,6 +146,7 @@ fun FantasyScreen(
         ErrorPopUp(errorMessage) { fantasyViewModel.dismissError() }
     }
 }
+
 
 @Composable
 fun NoFantasyTeamCard(onStartClick: () -> Unit) {

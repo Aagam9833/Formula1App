@@ -30,7 +30,7 @@ fun LeaderboardCell(modifier: Modifier, data: CurrentUser) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp, horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = SecondaryColor),
     ) {
         Row(

@@ -56,8 +56,8 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
         Column {
             CustomTab(
                 items = listOf(
-                    stringResource(R.string.upcoming_grand_prix),
-                    stringResource(R.string.past_grand_prix)
+                    stringResource(R.string.upcoming),
+                    stringResource(R.string.past)
                 ),
                 selectedItemIndex = pagerState.currentPage,
                 modifier = Modifier
