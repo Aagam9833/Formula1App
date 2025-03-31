@@ -37,6 +37,11 @@ class FantasyViewModel @Inject constructor(
     val errorMessage: String? get() = _errorMessage.value
 
     init {
+        _homeData.value = null
+        getFantasyHome()
+    }
+
+    fun refreshPage() {
         getFantasyHome()
     }
 

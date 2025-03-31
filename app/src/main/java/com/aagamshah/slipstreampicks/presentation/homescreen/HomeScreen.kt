@@ -23,9 +23,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -53,6 +56,7 @@ import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
 import com.aagamshah.slipstreampicks.ui.theme.Grey
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hiltViewModel()) {
 
@@ -63,6 +67,9 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
 
     val errorMessage = homeViewModel.errorMessage
     var showPopup by remember { mutableStateOf(false) }
+
+    val refreshState = rememberPullToRefreshState()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     LaunchedEffect(errorMessage) {
         showPopup = errorMessage != null
@@ -77,28 +84,37 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = hilt
             CircularProgressIndicator()
         }
     } else {
-        homeData?.let { data ->
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(bottom = 100.dp)
-            ) {
-                Box {
-                    TopCard(data.circuit.url, data.raceName)
-                    if (data.nextSession != null) {
-                        TimerCard(
-                            sessionTitle = data.nextSession.name,
-                            remainingTime = remainingTime,
-                            outlineUrl = data.circuit.outlineUrl,
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .offset(y = 80.dp)
-                        )
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            state = refreshState,
+            onRefresh = {
+                isRefreshing = true
+                homeViewModel.refreshPage()
+                isRefreshing = false
+            }
+        ) {
+            homeData?.let { data ->
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(bottom = 100.dp)
+                ) {
+                    Box {
+                        TopCard(data.circuit.url, data.raceName)
+                        if (data.nextSession != null) {
+                            TimerCard(
+                                sessionTitle = data.nextSession.name,
+                                remainingTime = remainingTime,
+                                outlineUrl = data.circuit.outlineUrl,
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .offset(y = 80.dp)
+                            )
+                        }
                     }
+                    Spacer(modifier = Modifier.height(100.dp))
+                    DriverStandingCard(driverStandingData)
                 }
-                Spacer(modifier = Modifier.height(100.dp))
-                DriverStandingCard(driverStandingData)
-
             }
         }
     }
@@ -273,7 +289,10 @@ fun DriverStandingCard(driverStandingData: DriverStandingModel?) {
         val pagerState = rememberPagerState(pageCount = { pageCount })
 
         Column(modifier = Modifier.padding(16.dp)) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     driverStandingData.title,
                     style = AppTypography.headlineLarge

@@ -1,5 +1,6 @@
 package com.aagamshah.slipstreampicks.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -26,15 +27,9 @@ fun FantasyBottomSheet(
     val selectedTeam = remember { userTeam.filterNotNull().toMutableStateList() }
 
     val isDriverSelectionComplete = selectedTeam.count { it.type == CardType.DRIVER } == 5
-    val cardContent = if (isDriverSelectionComplete) constructorList else driverList
 
-    val carouselState = rememberCarouselState { cardContent.size } // Reset state dynamically
-
-    // Dynamically adjust padding based on item count
-    val dynamicContentPadding = if (cardContent.size <= 3) 48.dp else 16.dp
-
-    // Dynamically adjust item width based on item count to prevent extra space
-    val dynamicItemWidth = if (cardContent.size <= 3) 160.dp else 140.dp
+    val driverCarouselState = rememberCarouselState { driverList.size }
+    val constructorCarouselState = rememberCarouselState { constructorList.size }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -53,7 +48,6 @@ fun FantasyBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Display the selected team in reverse order (last added first)
             HorizontalUncontainedCarousel(
                 state = rememberCarouselState { selectedTeam.size },
                 itemWidth = 140.dp,
@@ -82,25 +76,48 @@ fun FantasyBottomSheet(
                 color = Color.White
             )
 
-            HorizontalUncontainedCarousel(
-                state = carouselState,
-                itemWidth = dynamicItemWidth,
-                itemSpacing = 12.dp,
-                contentPadding = PaddingValues(start = dynamicContentPadding, end = dynamicContentPadding),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .padding(vertical = 16.dp)
-            ) { index ->
-                cardContent.getOrNull(index)?.let { card ->
-                    FantasyCard(
-                        data = card,
-                        modifier = Modifier.maskClip(shape = RoundedCornerShape(8.dp))
-                    ) {
-                        if (card !in selectedTeam && selectedTeam.size < 6) {
-                            when (card.type) {
-                                CardType.DRIVER -> if (selectedTeam.count { it.type == CardType.DRIVER } < 5) selectedTeam.add(card)
-                                CardType.CONSTRUCTOR -> if (selectedTeam.count { it.type == CardType.CONSTRUCTOR } < 1) selectedTeam.add(card)
+            AnimatedVisibility(visible = !isDriverSelectionComplete) {
+                HorizontalUncontainedCarousel(
+                    state = driverCarouselState,
+                    itemWidth = 140.dp,
+                    itemSpacing = 12.dp,
+                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(vertical = 16.dp)
+                ) { index ->
+                    driverList.getOrNull(index)?.let { card ->
+                        FantasyCard(
+                            data = card,
+                            modifier = Modifier.maskClip(shape = RoundedCornerShape(8.dp))
+                        ) {
+                            if (card !in selectedTeam && selectedTeam.count { it.type == CardType.DRIVER } < 5) {
+                                selectedTeam.add(card)
+                            }
+                        }
+                    }
+                }
+            }
+
+            AnimatedVisibility(visible = isDriverSelectionComplete) {
+                HorizontalUncontainedCarousel(
+                    state = constructorCarouselState,
+                    itemWidth = 160.dp,
+                    itemSpacing = 12.dp,
+                    contentPadding = PaddingValues(start = 48.dp, end = 48.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(vertical = 16.dp)
+                ) { index ->
+                    constructorList.getOrNull(index)?.let { card ->
+                        FantasyCard(
+                            data = card,
+                            modifier = Modifier.maskClip(shape = RoundedCornerShape(8.dp))
+                        ) {
+                            if (card !in selectedTeam && selectedTeam.count { it.type == CardType.CONSTRUCTOR } < 1) {
+                                selectedTeam.add(card)
                             }
                         }
                     }
@@ -111,7 +128,10 @@ fun FantasyBottomSheet(
 
             TertiaryButton(
                 text = "Proceed",
-                onClick = { onTeamSelected(selectedTeam) },
+                onClick = {
+                    val orderedTeam = selectedTeam.sortedBy { it.type == CardType.CONSTRUCTOR }
+                    onTeamSelected(orderedTeam)
+                },
                 modifier = Modifier,
                 isEnabled = selectedTeam.count { it.type == CardType.DRIVER } == 5 &&
                         selectedTeam.count { it.type == CardType.CONSTRUCTOR } == 1

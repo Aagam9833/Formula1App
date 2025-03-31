@@ -39,6 +39,11 @@ class StandingsViewModel @Inject constructor(
         callConstructorStandingApi()
     }
 
+    fun refreshPage() {
+        callDriverStandingApi()
+        callConstructorStandingApi()
+    }
+
     private fun callDriverStandingApi() {
         viewModelScope.launch {
             driverStandingUseCase.invoke().onEach { result ->

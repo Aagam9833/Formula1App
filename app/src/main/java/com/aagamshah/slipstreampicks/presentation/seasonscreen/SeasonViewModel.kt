@@ -61,6 +61,10 @@ class SeasonViewModel @Inject constructor(
         }
     }
 
+    fun refreshPage() {
+        getCurrentSeason()
+    }
+
     fun formatDate(firstPractice: SessionDetail, race: SessionDetail): String {
         val startDate = firstPractice.date.substring(8, 10)
         val endDate = race.date.substring(8, 10)

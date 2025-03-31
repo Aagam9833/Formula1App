@@ -76,6 +76,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun refreshPage() {
+        callHomeApi()
+        callDriverStandingApi()
+    }
+
     private fun callDriverStandingApi() {
         viewModelScope.launch {
             driverStandingUseCase.invoke().onEach { result ->

@@ -18,6 +18,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -58,21 +60,27 @@ fun FantasyScreen(
     val showBottomSheet = remember { mutableStateOf(false) }
     val errorMessage = fantasyViewModel.errorMessage
     var showPopup by remember { mutableStateOf(false) }
+    val refreshState = rememberPullToRefreshState()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     LaunchedEffect(errorMessage) {
         showPopup = errorMessage != null
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-
-
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        state = refreshState,
+        onRefresh = {
+            isRefreshing = true
+            fantasyViewModel.refreshPage()
+            isRefreshing = false
         }
-
+    ) {
         if (data != null) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(bottom = 100.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 contentPadding = PaddingValues(vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -126,7 +134,6 @@ fun FantasyScreen(
                 }
             }
         }
-
         if (showBottomSheet.value) {
             FantasyBottomSheet(
                 onDismiss = { showBottomSheet.value = false },
@@ -144,6 +151,11 @@ fun FantasyScreen(
     }
     if (!errorMessage.isNullOrEmpty()) {
         ErrorPopUp(errorMessage) { fantasyViewModel.dismissError() }
+    }
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
     }
 }
 

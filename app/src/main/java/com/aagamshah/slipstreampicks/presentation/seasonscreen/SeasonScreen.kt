@@ -9,6 +9,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +29,7 @@ import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.ui.theme.*
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel = hiltViewModel()) {
 
@@ -38,6 +41,9 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
 
     val errorMessage = seasonViewModel.errorMessage
     var showPopup by remember { mutableStateOf(false) }
+
+    var isRefreshing by remember { mutableStateOf(false) }
+    val refreshState = rememberPullToRefreshState()
 
     LaunchedEffect(errorMessage) {
         showPopup = errorMessage != null
@@ -53,43 +59,53 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
             CircularProgressIndicator()
         }
     } else {
-        Column {
-            CustomTab(
-                items = listOf(
-                    stringResource(R.string.upcoming),
-                    stringResource(R.string.past)
-                ),
-                selectedItemIndex = pagerState.currentPage,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 32.dp)
-            ) { index ->
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(index)
-                }
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            state = refreshState,
+            onRefresh = {
+                isRefreshing = true
+                seasonViewModel.refreshPage()
+                isRefreshing = false
             }
+        ) {
+            Column {
+                CustomTab(
+                    items = listOf(
+                        stringResource(R.string.upcoming),
+                        stringResource(R.string.past)
+                    ),
+                    selectedItemIndex = pagerState.currentPage,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 32.dp)
+                ) { index ->
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                }
 
-            Text(
-                text = if (pagerState.currentPage == 0) stringResource(R.string.schedule).uppercase() else stringResource(
-                    R.string.races
-                ).uppercase(),
-                style = AppTypography.headlineLarge,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-            )
-
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize()
-            ) { page ->
-                SeasonListComponent(
-                    races = if (page == 0) data?.upcomingRaces else data?.pastRaces,
-                    seasonViewModel = seasonViewModel,
-                    isPast = (page == 1),
-                    navController = navController
+                Text(
+                    text = if (pagerState.currentPage == 0) stringResource(R.string.schedule).uppercase() else stringResource(
+                        R.string.races
+                    ).uppercase(),
+                    style = AppTypography.headlineLarge,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
                 )
+
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.fillMaxSize()
+                ) { page ->
+                    SeasonListComponent(
+                        races = if (page == 0) data?.upcomingRaces else data?.pastRaces,
+                        seasonViewModel = seasonViewModel,
+                        isPast = (page == 1),
+                        navController = navController
+                    )
+                }
             }
         }
     }

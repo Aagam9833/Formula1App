@@ -20,7 +20,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -50,6 +53,7 @@ import com.aagamshah.slipstreampicks.ui.theme.BlackWhite
 import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandingsScreen(
     navController: NavController,
@@ -62,6 +66,9 @@ fun StandingsScreen(
 
     val errorMessage = standingsViewModel.errorMessage
     var showPopup by remember { mutableStateOf(false) }
+
+    val refreshState = rememberPullToRefreshState()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     LaunchedEffect(errorMessage) {
         showPopup = errorMessage != null
@@ -80,35 +87,45 @@ fun StandingsScreen(
             CircularProgressIndicator()
         }
     } else {
-        Column {
-            CustomTab(
-                items = listOf("Driver", "Constructor"),
-                selectedItemIndex = pagerState.currentPage,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 32.dp)
-            ) { index ->
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(index)
-                }
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            state = refreshState,
+            onRefresh = {
+                isRefreshing = true
+                standingsViewModel.refreshPage()
+                isRefreshing = false
             }
+        ) {
+            Column {
+                CustomTab(
+                    items = listOf("Driver", "Constructor"),
+                    selectedItemIndex = pagerState.currentPage,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 32.dp)
+                ) { index ->
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                }
 
-            Text(
-                text = stringResource(R.string.standings).uppercase(),
-                style = AppTypography.headlineLarge,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-            )
-
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize()
-            ) { page ->
-                if (page == 0) DriverStandingComposable(driverData) else ConstructorStandingComposable(
-                    constructorData
+                Text(
+                    text = stringResource(R.string.standings).uppercase(),
+                    style = AppTypography.headlineLarge,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
                 )
+
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.fillMaxSize()
+                ) { page ->
+                    if (page == 0) DriverStandingComposable(driverData) else ConstructorStandingComposable(
+                        constructorData
+                    )
+                }
             }
         }
     }
