@@ -26,6 +26,7 @@ import com.aagamshah.slipstreampicks.domain.model.response.Race
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
 import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
+import com.aagamshah.slipstreampicks.presentation.components.LoadingAnimation
 import com.aagamshah.slipstreampicks.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -56,7 +57,7 @@ fun SeasonScreen(navController: NavController, seasonViewModel: SeasonViewModel 
 
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
+            LoadingAnimation(modifier = Modifier)
         }
     } else {
         PullToRefreshBox(

@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.navigation.Route
+import com.aagamshah.slipstreampicks.presentation.components.LoadingAnimation
 import com.aagamshah.slipstreampicks.presentation.components.PrimaryButton
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
@@ -139,7 +140,7 @@ fun ImageUploadScreen(
         }
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                LoadingAnimation(modifier = Modifier)
             }
         }
 

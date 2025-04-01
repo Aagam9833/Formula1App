@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +39,7 @@ import coil3.compose.AsyncImage
 import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.response.Result
 import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
+import com.aagamshah.slipstreampicks.presentation.components.LoadingAnimation
 import com.aagamshah.slipstreampicks.presentation.components.OutlinedText
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.DarkGrey
@@ -75,7 +75,7 @@ fun RaceResultScreen(
     Scaffold(modifier = Modifier.fillMaxSize(), containerColor = Color.Black) { innerPadding ->
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                LoadingAnimation(modifier = Modifier)
             }
         } else {
             if (data != null) {

@@ -25,6 +25,7 @@ import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.presentation.components.FlipCard
+import com.aagamshah.slipstreampicks.presentation.components.LoadingAnimation
 import com.aagamshah.slipstreampicks.presentation.components.LoginUI
 import com.aagamshah.slipstreampicks.presentation.components.PrimaryButton
 import com.aagamshah.slipstreampicks.presentation.components.SignupUI
@@ -130,7 +131,7 @@ fun SignUpLoginScreen(
         }
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                LoadingAnimation(modifier = Modifier)
             }
         }
     }

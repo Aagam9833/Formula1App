@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.CustomBottomNavigationBar
 import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
+import com.aagamshah.slipstreampicks.presentation.components.LoadingAnimation
 import com.aagamshah.slipstreampicks.presentation.fantasyscreen.fantasyScreenRoute
 import com.aagamshah.slipstreampicks.presentation.homescreen.homeScreenRoute
 import com.aagamshah.slipstreampicks.presentation.seasonscreen.seasonScreenRoute
@@ -52,7 +53,7 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel = 
 
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                LoadingAnimation(modifier = Modifier)
             }
         } else {
             navigationData?.let {

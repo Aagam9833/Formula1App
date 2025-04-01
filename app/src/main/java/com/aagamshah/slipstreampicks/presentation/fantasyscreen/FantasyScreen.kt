@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
@@ -42,6 +41,7 @@ import com.aagamshah.slipstreampicks.presentation.components.FantasyBottomSheet
 import com.aagamshah.slipstreampicks.presentation.components.FantasyCard
 import com.aagamshah.slipstreampicks.presentation.components.FantasyCardModel
 import com.aagamshah.slipstreampicks.presentation.components.LeaderboardCell
+import com.aagamshah.slipstreampicks.presentation.components.LoadingAnimation
 import com.aagamshah.slipstreampicks.presentation.components.TertiaryButton
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.SecondaryColor
@@ -154,7 +154,7 @@ fun FantasyScreen(
     }
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            LoadingAnimation(modifier = Modifier)
         }
     }
 }
