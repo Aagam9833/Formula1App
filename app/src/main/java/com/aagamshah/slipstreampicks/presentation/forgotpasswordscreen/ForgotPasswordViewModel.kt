@@ -1,12 +1,9 @@
-package com.aagamshah.slipstreampicks.presentation.signuploginscreen
+package com.aagamshah.slipstreampicks.presentation.forgotpasswordscreen
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aagamshah.slipstreampicks.domain.model.request.LoginRequestModel
-import com.aagamshah.slipstreampicks.domain.model.request.SignUpRequestModel
-import com.aagamshah.slipstreampicks.domain.usecase.LoginUseCase
-import com.aagamshah.slipstreampicks.domain.usecase.SignUpUseCase
+import com.aagamshah.slipstreampicks.domain.usecase.ForgotPasswordUseCase
 import com.aagamshah.slipstreampicks.utils.Resource
 import com.aagamshah.slipstreampicks.utils.StringExtensions.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,9 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpLoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase,
-    private val signUpUseCase: SignUpUseCase,
+class ForgotPasswordViewModel @Inject constructor(
+    private val forgotPasswordUseCase: ForgotPasswordUseCase
 ) : ViewModel() {
 
     private val _isLoading = mutableStateOf<Boolean>(false)
@@ -27,51 +23,13 @@ class SignUpLoginViewModel @Inject constructor(
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: String? get() = _errorMessage.value
 
-    fun loginValidations(
-        identifier: String,
-        password: String,
-        onSuccess: () -> Unit
-    ) {
-        when {
-            identifier.isBlank() -> {
-                _errorMessage.value = "Please enter username or email"
-                return
-            }
-
-            password.length < 8 -> {
-                _errorMessage.value = "Password cannot be less than 8 characters"
-                return
-            }
-        }
-        viewModelScope.launch {
-            loginUseCase.invoke(LoginRequestModel(identifier, password)).onEach { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _isLoading.value = false
-                        _errorMessage.value = result.message ?: "Something went wrong"
-                    }
-
-                    is Resource.Loading -> {
-                        _isLoading.value = true
-                    }
-
-                    is Resource.Success -> {
-                        _isLoading.value = false
-                        onSuccess()
-                    }
-                }
-            }.collect()
-        }
-    }
-
-    fun signUpValidations(
-        username: String,
+    fun forgotPassword(
         email: String,
-        password: String,
         onSuccess: () -> Unit
     ) {
+
         when {
-            username.trim().replace(" ", "").isBlank() -> {
+            email.trim().replace(" ", "").isBlank() -> {
                 _errorMessage.value =
                     "Username cannot be empty"
                 return
@@ -81,21 +39,10 @@ class SignUpLoginViewModel @Inject constructor(
                 _errorMessage.value = "Invalid email format"
                 return
             }
-
-            password.length < 8 -> {
-                _errorMessage.value =
-                    "Password must be at least 8 characters long"
-                return
-            }
         }
+
         viewModelScope.launch {
-            signUpUseCase.invoke(
-                SignUpRequestModel(
-                    email,
-                    username.trim().replace(" ", ""),
-                    password
-                )
-            ).onEach { result ->
+            forgotPasswordUseCase.invoke(email).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _isLoading.value = false
@@ -113,11 +60,65 @@ class SignUpLoginViewModel @Inject constructor(
                 }
             }.collect()
         }
+
+    }
+
+    fun resetPassword(
+        email: String,
+        otp: String,
+        newPassword: String,
+        confirmPassword: String,
+        onSuccess: () -> Unit
+    ) {
+        when {
+            otp.trim().replace(" ", "").isBlank() -> {
+                _errorMessage.value =
+                    "OTP cannot be empty"
+                return
+            }
+
+            newPassword.trim().replace(" ", "").isBlank() -> {
+                _errorMessage.value =
+                    "New password cannot be empty"
+                return
+            }
+
+            confirmPassword.trim().replace(" ", "").isBlank() -> {
+                _errorMessage.value =
+                    "Confirm password cannot be empty"
+                return
+            }
+
+            newPassword != confirmPassword -> {
+                _errorMessage.value =
+                    "Passwords do not match"
+                return
+            }
+        }
+        viewModelScope.launch {
+            forgotPasswordUseCase.invoke(email, otp.toInt(), newPassword).onEach { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _isLoading.value = false
+                        _errorMessage.value = result.message ?: "Something went wrong"
+                    }
+
+                    is Resource.Loading -> {
+                        _isLoading.value = true
+                    }
+
+                    is Resource.Success -> {
+                        _isLoading.value = false
+                        onSuccess()
+                    }
+                }
+            }.collect()
+        }
+
     }
 
     fun dismissError() {
         _errorMessage.value = null
     }
-
 
 }

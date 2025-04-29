@@ -11,4 +11,5 @@ sealed class Route(val route: String) {
     data object SignUpLoginScreen : Route("sign_up_login_screen")
     data object SplashScreen : Route("splash_screen")
     data object ImageUploadScreen : Route("image_upload_screen")
+    data object ForgotPasswordScreen : Route("forgot_password_screen")
 }

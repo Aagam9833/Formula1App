@@ -12,6 +12,8 @@ object Constants {
 
     const val SIGN_UP = "${AUTH}/signup"
     const val LOGIN = "${AUTH}/login"
+    const val FORGOT_PASSWORD = "${AUTH}/forgot-password"
+    const val RESET_PASSWORD = "${AUTH}/reset-password"
 
     const val GET_HOME = "$VERSION_V1/home"
     const val GET_DRIVER_STANDING = "${VERSION_V1}/currentDriverStandings"

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.aagamshah.slipstreampicks.presentation.fantasyscreen.fantasyScreenRoute
+import com.aagamshah.slipstreampicks.presentation.forgotpasswordscreen.forgotPasswordScreenRoute
 import com.aagamshah.slipstreampicks.presentation.homescreen.homeScreenRoute
 import com.aagamshah.slipstreampicks.presentation.imageuploadscreen.imageUploadScreenRoute
 import com.aagamshah.slipstreampicks.presentation.mainscreen.mainScreenRoute
@@ -27,5 +28,6 @@ fun NavGraph(navController: NavHostController) {
         signUpLoginScreenRoute(navController)
         splashScreenRoute(navController)
         imageUploadScreenRoute(navController)
+        forgotPasswordScreenRoute(navController)
     }
 }

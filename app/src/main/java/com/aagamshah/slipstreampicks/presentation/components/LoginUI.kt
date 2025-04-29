@@ -1,5 +1,6 @@
 package com.aagamshah.slipstreampicks.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
@@ -38,6 +40,7 @@ fun LoginUI(
     password: String,
     onUsernameChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
+    onForgotPassword: () -> Unit,
     flip: () -> Unit
 ) {
 
@@ -112,6 +115,14 @@ fun LoginUI(
                     color = Formula1Red
                 )
             }
+            Text(
+                text = stringResource(R.string.forgot_password),
+                style = AppTypography.titleSmall.copy(textDecoration = TextDecoration.Underline),
+                color = Color.White,
+                modifier = Modifier.clickable {
+                    onForgotPassword()
+                }
+            )
         }
     }
 }

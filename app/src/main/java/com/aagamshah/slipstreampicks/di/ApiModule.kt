@@ -6,6 +6,7 @@ import com.aagamshah.slipstreampicks.data.remote.ApiService
 import com.aagamshah.slipstreampicks.data.repositoryimpl.ConstructorStandingRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.CurrentSeasonRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.DriverStandingRepositoryImpl
+import com.aagamshah.slipstreampicks.data.repositoryimpl.ForgotPasswordRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.GetFantasyHomeRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.HomeRepositoryImpl
 import com.aagamshah.slipstreampicks.data.repositoryimpl.LoginRepositoryImpl
@@ -17,6 +18,7 @@ import com.aagamshah.slipstreampicks.data.repositoryimpl.SignUpRepositoryImpl
 import com.aagamshah.slipstreampicks.domain.repository.ConstructorStandingRepository
 import com.aagamshah.slipstreampicks.domain.repository.CurrentSeasonRepository
 import com.aagamshah.slipstreampicks.domain.repository.DriverStandingRepository
+import com.aagamshah.slipstreampicks.domain.repository.ForgotPasswordRepository
 import com.aagamshah.slipstreampicks.domain.repository.GetFantasyHomeRepository
 import com.aagamshah.slipstreampicks.domain.repository.HomeRepository
 import com.aagamshah.slipstreampicks.domain.repository.LoginRepository
@@ -89,6 +91,12 @@ object ApiModule {
         preferenceManager: PreferenceManager,
     ): LoginRepository {
         return LoginRepositoryImpl(apiService, userDao, preferenceManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideForgotPasswordRepository(apiService: ApiService): ForgotPasswordRepository {
+        return ForgotPasswordRepositoryImpl(apiService)
     }
 
     @Provides

@@ -1,6 +1,8 @@
 package com.aagamshah.slipstreampicks.data.remote
 
+import com.aagamshah.slipstreampicks.domain.model.request.ForgotPasswordRequestModel
 import com.aagamshah.slipstreampicks.domain.model.request.LoginRequestModel
+import com.aagamshah.slipstreampicks.domain.model.request.ResetPasswordModel
 import com.aagamshah.slipstreampicks.domain.model.request.SaveFantasyTeamRequestModel
 import com.aagamshah.slipstreampicks.domain.model.request.SignUpRequestModel
 import com.aagamshah.slipstreampicks.domain.model.response.AuthResponseModel
@@ -61,5 +63,11 @@ interface ApiService {
         @Part image: MultipartBody.Part,
         @Part("user_id") userId: RequestBody
     ): ProfileImageUploadResponse
+
+    @POST(Constants.FORGOT_PASSWORD)
+    suspend fun forgotPassword(@Body email: ForgotPasswordRequestModel): MessageResponseModel
+
+    @POST(Constants.RESET_PASSWORD)
+    suspend fun resetPassword(@Body data: ResetPasswordModel): MessageResponseModel
 
 }
