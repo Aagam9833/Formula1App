@@ -143,6 +143,7 @@ fun ForgotPasswordEmailCard(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
             ),
+            modifier = Modifier.fillMaxWidth(),
             value = text,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             onValueChange = onTextChange,
@@ -196,8 +197,12 @@ fun ForgotPasswordOtpCard(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
             ),
+            modifier = Modifier.fillMaxWidth(),
             value = otp,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Number
+            ),
 
             onValueChange = onOtpChange,
             label = {
@@ -217,6 +222,7 @@ fun ForgotPasswordOtpCard(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
             ),
+            modifier = Modifier.fillMaxWidth(),
             value = password,
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -238,6 +244,7 @@ fun ForgotPasswordOtpCard(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
             ),
+            modifier = Modifier.fillMaxWidth(),
             value = confirm,
             visualTransformation = if (confirmVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
