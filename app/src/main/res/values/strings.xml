@@ -49,4 +49,7 @@
     <string name="enter_new_password">Enter New Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="reset_password">Reset Password</string>
+
+    <string name="settings_ad_id">ca-app-pub-4203099646172819/2144293476</string>
+
 </resources>
