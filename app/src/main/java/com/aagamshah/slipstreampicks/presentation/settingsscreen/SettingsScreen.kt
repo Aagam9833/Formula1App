@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
@@ -34,6 +36,9 @@ import com.aagamshah.slipstreampicks.presentation.components.PrimaryButton
 import com.aagamshah.slipstreampicks.ui.theme.AppTypography
 import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
 import com.aagamshah.slipstreampicks.ui.theme.Grey
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 
 @Composable
 fun SettingsScreen(
@@ -47,72 +52,86 @@ fun SettingsScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 40.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Card(
-            colors = CardDefaults.cardColors(containerColor = Grey),
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 40.dp),
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Grey),
             ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = username,
-                        style = AppTypography.headlineLarge,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = userId,
-                        style = AppTypography.bodyMedium,
-                        color = Color.White,
-                        modifier = Modifier.wrapContentWidth()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = username,
+                            style = AppTypography.headlineLarge,
+                            color = Color.White
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = userId,
+                            style = AppTypography.bodyMedium,
+                            color = Color.White,
+                            modifier = Modifier.wrapContentWidth()
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    AsyncImage(
+                        model = profileImage,
+                        contentDescription = stringResource(R.string.profile_image),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(100.dp)
+                            .aspectRatio(1f)
+                            .clip(CircleShape)
+                            .border(width = 1.dp, color = Formula1Red, shape = CircleShape)
+                            .clickable {
+                                navController.navigate(Route.ImageUploadScreen.route)
+                            }
                     )
                 }
-                Spacer(modifier = Modifier.width(16.dp))
-                AsyncImage(
-                    model = profileImage,
-                    contentDescription = stringResource(R.string.profile_image),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .aspectRatio(1f)
-                        .clip(CircleShape)
-                        .border(width = 1.dp, color = Formula1Red, shape = CircleShape)
-                        .clickable {
-                            navController.navigate(Route.ImageUploadScreen.route)
+
+            }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth()
+            ) {
+                PrimaryButton(
+                    text = stringResource(R.string.logout),
+                    onClick = {
+                        settingsViewModel.logoutUser()
+                        navController.navigate(Route.SignUpLoginScreen.route) {
+                            popUpTo(0) { inclusive = true }
                         }
+                    },
+                    modifier = Modifier,
+                    isEnabled = true
+                )
+                Text(
+                    text = settingsViewModel.versionText,
+                    style = AppTypography.bodySmall,
+                    color = Color.White
                 )
             }
-
         }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth()
-        ) {
-            PrimaryButton(
-                text = stringResource(R.string.logout),
-                onClick = {
-                    settingsViewModel.logoutUser()
-                    navController.navigate(Route.SignUpLoginScreen.route) {
-                        popUpTo(0) { inclusive = true }
-                    }
-                },
-                modifier = Modifier,
-                isEnabled = true
-            )
-            Text(
-                text = settingsViewModel.versionText,
-                style = AppTypography.bodySmall,
-                color = Color.White
-            )
-        }
+//        AndroidView(
+//            factory = { context ->
+//                AdView(context).apply {
+//                    setAdSize(AdSize.BANNER)
+//                    adUnitId = context.getString(R.string.settings_ad_id)
+//                    loadAd(AdRequest.Builder().build())
+//                }
+//            },
+//            modifier = Modifier.fillMaxWidth()
+//        )
     }
 }

@@ -1,11 +1,11 @@
 package com.aagamshah.slipstreampicks.presentation.signuploginscreen
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,20 +48,26 @@ fun SignUpLoginScreen(
     val errorMessage = signUpLoginViewModel.errorMessage
     val isLoading = signUpLoginViewModel.isLoading
 
+    val scrollState = rememberScrollState()
+
     LaunchedEffect(errorMessage) {
         showPopup = errorMessage != null
     }
 
-    Scaffold(containerColor = Color.Black, modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Column(
+    Scaffold(
+        containerColor = Color.Black,
+        modifier = Modifier.fillMaxSize()
+    ) { innerPadding ->
+        Box(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize()
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .verticalScroll(scrollState)
+                    .fillMaxSize()
+                    .padding(bottom = 80.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -89,7 +95,8 @@ fun SignUpLoginScreen(
                                     launchSingleTop = true
                                 }
                             },
-                            flip = { cardFace = cardFace.next })
+                            flip = { cardFace = cardFace.next }
+                        )
                     },
                     back = {
                         SignupUI(
@@ -104,9 +111,11 @@ fun SignUpLoginScreen(
                     }
                 )
             }
+
+            // Fixed Proceed Button
             PrimaryButton(
-                stringResource(R.string.proceed),
-                {
+                text = stringResource(R.string.proceed),
+                onClick = {
                     if (cardFace == CardFace.Front) {
                         signUpLoginViewModel.loginValidations(loginIdentifier, loginPassword) {
                             navController.navigate(Route.MainScreen.route) {
@@ -131,17 +140,22 @@ fun SignUpLoginScreen(
                         }
                     }
                 },
-                Modifier,
-                !isLoading
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp),
+                isEnabled = !isLoading
             )
-        }
-        if (isLoading) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                LoadingAnimation(modifier = Modifier)
+
+            // Loading Overlay
+            if (isLoading) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    LoadingAnimation(modifier = Modifier)
+                }
             }
         }
     }
 
+    // Error Popup
     if (!errorMessage.isNullOrEmpty()) {
         ErrorPopUp(errorMessage) { signUpLoginViewModel.dismissError() }
     }

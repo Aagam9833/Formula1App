@@ -2,32 +2,56 @@ package com.aagamshah.slipstreampicks.presentation.seasonscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.aagamshah.slipstreampicks.R
 import com.aagamshah.slipstreampicks.domain.model.response.Race
 import com.aagamshah.slipstreampicks.navigation.Route
 import com.aagamshah.slipstreampicks.presentation.components.CustomTab
 import com.aagamshah.slipstreampicks.presentation.components.ErrorPopUp
 import com.aagamshah.slipstreampicks.presentation.components.LoadingAnimation
-import com.aagamshah.slipstreampicks.ui.theme.*
+import com.aagamshah.slipstreampicks.ui.theme.AppTypography
+import com.aagamshah.slipstreampicks.ui.theme.DarkGrey
+import com.aagamshah.slipstreampicks.ui.theme.Formula1Red
+import com.aagamshah.slipstreampicks.ui.theme.Grey
+import com.aagamshah.slipstreampicks.ui.theme.LightGrey
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,7 +153,7 @@ fun SeasonListComponent(
         }
     } else {
         LazyColumn(contentPadding = PaddingValues(bottom = 100.dp)) {
-            items(races) { race ->
+            items(races, key = { it.round }) { race ->
                 Card(
                     modifier = Modifier
                         .padding(16.dp)
@@ -167,7 +191,7 @@ fun SeasonListComponent(
                                         race.sessions.firstPractice,
                                         race.sessions.race
                                     ),
-                                    style = AppTypography.bodyMedium,
+                                    style = AppTypography.bodySmall,
                                     color = Color.Black
                                 )
                             }
@@ -200,7 +224,8 @@ fun SeasonListComponent(
                         }
                         AsyncImage(
                             modifier = Modifier.weight(2f),
-                            model = race.circuit.url,
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(race.circuit.url).crossfade(true).build(),
                             contentDescription = null
                         )
                     }

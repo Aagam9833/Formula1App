@@ -129,6 +129,9 @@ dependencies {
     //Joda Time
     implementation(libs.joda.time)
 
+    //AdMob
+    implementation(libs.admob)
+
 }
 
 ksp {
