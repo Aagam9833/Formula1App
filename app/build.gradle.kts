@@ -16,8 +16,8 @@ android {
         applicationId = "com.aagamshah.slipstreampicks"
         minSdk = 24
         targetSdk = 35
-        versionCode = 6         //05-06-2025
-        versionName = "1.0.6"   //05-06-2025
+        versionCode = 6         //17-06-2025
+        versionName = "1.0.6"   //17-06-2025
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
