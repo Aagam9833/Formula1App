@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -22,12 +24,18 @@ android {
             useSupportLibrary = true
         }
     }
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+
     signingConfigs {
         create("release") {
-            storeFile = file(rootProject.file(properties["RELEASE_STORE_FILE"] as String))
-            storePassword = properties["RELEASE_STORE_PASSWORD"] as String
-            keyAlias = properties["RELEASE_KEY_ALIAS"] as String
-            keyPassword = properties["RELEASE_KEY_PASSWORD"] as String
+            storeFile = rootProject.file(localProperties["RELEASE_STORE_FILE"] as String)
+            storePassword = localProperties["RELEASE_STORE_PASSWORD"] as String
+            keyAlias = localProperties["RELEASE_KEY_ALIAS"] as String
+            keyPassword = localProperties["RELEASE_KEY_PASSWORD"] as String
         }
     }
     buildTypes {
@@ -46,7 +54,8 @@ android {
     applicationVariants.configureEach {
         val apkName = "SlipstreamPicks-v${versionName}-${buildType.name}.apk"
         outputs.configureEach {
-            (this as com.android.build.gradle.internal.api.ApkVariantOutputImpl).outputFileName = apkName
+            (this as com.android.build.gradle.internal.api.ApkVariantOutputImpl).outputFileName =
+                apkName
         }
     }
 
